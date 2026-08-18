@@ -1,0 +1,237 @@
+.stage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 36px 24px 40px;
+  background: var(--sofi-navy);
+  color: #fff;
+  font-family: var(--sofi-family);
+}
+
+.wordmark {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.rule {
+  width: 36px;
+  height: 3px;
+  margin: -8px 0 4px;
+  border-radius: 100px;
+  background: var(--sofi-cyan);
+}
+
+.phoneWrap {
+  position: relative;
+}
+
+.viewport {
+  position: relative;
+  height: 100%;
+}
+
+.frozen {
+  height: 100%;
+  pointer-events: none;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+.incoming {
+  animation: fadeIn 400ms ease both;
+}
+
+.outgoing {
+  animation: fadeOut 400ms ease both;
+}
+
+.cursor {
+  position: absolute;
+  z-index: 40;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: rgba(0, 162, 199, 0.4);
+  box-shadow: 0 0 0 6px rgba(0, 162, 199, 0.18);
+  transition:
+    left 350ms ease,
+    top 350ms ease,
+    opacity 200ms ease;
+  pointer-events: none;
+}
+
+.cursorOn {
+  animation: tap 1.2s ease-out 350ms infinite;
+}
+
+.cursorOff {
+  opacity: 0;
+}
+
+.caption {
+  margin: 0;
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.bar {
+  width: 220px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--sofi-cyan);
+  animation-name: grow;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.paused {
+  animation-play-state: paused;
+}
+
+.controls {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--sofi-navy-ink);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.btn {
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: var(--sofi-cyan);
+  color: #fff;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 0 48px;
+  background: var(--sofi-navy);
+  color: #fff;
+  font-family: var(--sofi-family);
+}
+
+.cardRule {
+  width: 36px;
+  height: 3px;
+  margin: 0 28px 0;
+  border-radius: 100px;
+  background: var(--sofi-cyan);
+}
+
+.cardKicker {
+  margin: 0;
+  padding: 8px 28px 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.cardTitle {
+  margin: 18px 0 0;
+  padding: 0 28px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.18;
+}
+
+.cardLead {
+  margin: 16px 0 0;
+  padding: 0 28px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.cardBody {
+  margin: 16px 0 0;
+  padding: 0 28px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.diagram {
+  margin: 22px 28px 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes tap {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}

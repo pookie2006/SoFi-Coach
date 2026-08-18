@@ -1,0 +1,115 @@
+.bars {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.barRow {
+  display: grid;
+  gap: 4px;
+}
+
+.barMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 100px;
+  background: var(--sofi-hairline);
+}
+
+.fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.other {
+  background: #c5c1ce;
+}
+
+.sofi {
+  background: var(--sofi-cyan);
+}
+
+.flow {
+  display: grid;
+  gap: 10px;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: 72px 1fr 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+}
+
+.who {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.step {
+  padding: 10px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.stepOn {
+  background: var(--sofi-cyan);
+  color: #fff;
+}
+
+.stepOff {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: line-through;
+}
+
+.glyph {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 8px;
+  border-radius: 20px;
+  background: #f3f1f7;
+  color: var(--sofi-navy);
+}
+
+.glyphLight {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.house {
+  display: grid;
+  place-items: center;
+  height: 88px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+  background: #f3f1f7;
+  color: var(--sofi-navy);
+}
+
+.mini {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: #ece8f3;
+  color: var(--sofi-navy);
+}

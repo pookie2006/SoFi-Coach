@@ -1,12 +1,16 @@
 # SoFi-Coach
 
-**Start here:** [SOFI-IT.md](SOFI-IT.md) is the product and prototype spec. The team uses Parts A and B (locked concept, numbers, deck, ownership). A later Cursor Agent should read that file and implement Part C — a Vite + React + TypeScript iPhone prototype of Maya’s Zillow listing → SoFi-finances-it flow. Do not invent a second set of numbers or reopen the locked concept.
+**Start here:** [SOFI-IT-FINAL.md](SOFI-IT-FINAL.md) is the condensed product lock — SoFi executes the job; it does not stop at a plan. [SOFI-IT.md](SOFI-IT.md) is the full spec (deck, numbers, prototype). A later Cursor Agent should read `SOFI-IT.md` and implement Part C. Do not invent a second set of numbers or reopen the locked concept.
 
 SoFi It is an execution feature: share a listing or state an intent, and SoFi completes the job (finance, invest, lend). This repository is the starting point for the prototype, docs, and contribution workflow.
 
+## Live demo
+
+https://pookie2006.github.io/SoFi-Coach/
+
 ## Status
 
-[SOFI-IT.md](SOFI-IT.md) is the source of truth. Implement or align the six-screen prototype to Part C before changing copy or numbers.
+The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Maya shares a Zillow listing; SoFi originates the mortgage.
 
 ## Getting started
 
@@ -24,7 +28,7 @@ SoFi It is an execution feature: share a listing or state an intent, and SoFi co
    npm run dev
    ```
 
-   Open the local Vite URL. After Part C is implemented, tap through `/` → `/share` → `/processing` → `/execute` → `/action` → `/done`. Use `?static=1` or `/gallery` when screenshotting slides 5–8.
+   Open the local Vite URL. `/` auto-plays a hypothetical demo (finance, lend, invest, roll, refinance). Tap through the Maya story at `/story` → `/share` → `/processing` → `/execute` → `/action` → `/done`. Use `?static=1` or `/gallery` when screenshotting slides 5–8.
 
 ## Contributing
 
