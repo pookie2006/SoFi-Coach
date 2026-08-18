@@ -1,0 +1,9 @@
+{
+  "asOf": "2026-08-18",
+  "items": {
+    "macbook": { "price": 1999, "streetHigh": 2199 },
+    "iphone": { "price": 999, "streetHigh": 1099 },
+    "bike": { "price": 749, "streetHigh": 890 },
+    "airpods": { "price": 249, "streetHigh": 279 }
+  }
+}

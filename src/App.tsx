@@ -3,6 +3,8 @@ import { DeviceFrame } from "./components/DeviceFrame";
 import { AppRoutes } from "./routes";
 import { DemoScreen } from "./screens/DemoScreen";
 import { GalleryScreen } from "./screens/GalleryScreen";
+import { LiveApp } from "./screens/live/LiveApp";
+import { LiveHost } from "./screens/live/LiveHost";
 import { useStaticMode } from "./useStaticMode";
 
 export default function App() {
@@ -11,6 +13,14 @@ export default function App() {
 
   if (location.pathname === "/gallery") {
     return <GalleryScreen />;
+  }
+
+  if (location.pathname === "/live/host") {
+    return <LiveHost />;
+  }
+
+  if (location.pathname === "/live") {
+    return <LiveApp />;
   }
 
   if (location.pathname === "/" || location.pathname === "/demo") {
