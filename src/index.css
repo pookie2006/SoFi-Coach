@@ -1,0 +1,56 @@
+:root {
+  --sofi-navy: #201747;
+  --sofi-navy-ink: #1f1646;
+  --sofi-cyan: #00a2c7;
+  --sofi-cyan-pressed: #00819d;
+  --sofi-paper: #ffffff;
+  --sofi-mist: #e5e1e6;
+  --sofi-ink: #212121;
+  --sofi-ink-muted: #5c5868;
+  --sofi-hairline: rgba(32, 23, 71, 0.12);
+  --ios-bg: #f2f2f7;
+  --ios-grouped: #ffffff;
+  --ios-label: #000000;
+  --ios-secondary: rgba(60, 60, 67, 0.6);
+  --ios-tertiary: rgba(60, 60, 67, 0.3);
+  --ios-separator: rgba(60, 60, 67, 0.29);
+  --ios-blue: #007aff;
+  --ios-fill: rgba(120, 120, 128, 0.16);
+  --ios-share: rgba(242, 242, 247, 0.94);
+  --ios-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "Segoe UI", sans-serif;
+  --sofi-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    sans-serif;
+  --phone-w: 393px;
+  --phone-h: 852px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--sofi-mist);
+  color: var(--sofi-ink);
+  font-family: var(--ios-family);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--sofi-cyan);
+  outline-offset: 2px;
+}

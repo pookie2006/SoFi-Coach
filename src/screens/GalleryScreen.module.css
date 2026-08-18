@@ -1,0 +1,11 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  justify-content: center;
+  padding: 48px 24px 80px;
+}
+
+.frozen {
+  pointer-events: none;
+}
