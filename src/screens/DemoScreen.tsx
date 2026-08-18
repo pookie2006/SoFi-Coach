@@ -299,6 +299,13 @@ export function DemoScreen() {
             >
               Tap through
             </button>
+            <button
+              type="button"
+              className={styles.btn}
+              onClick={() => navigate("/live")}
+            >
+              Judge live
+            </button>
           </div>
         </>
       )}

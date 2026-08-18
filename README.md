@@ -28,7 +28,7 @@ The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Maya shares a 
    npm run dev
    ```
 
-   Open the local Vite URL. `/` auto-plays a hypothetical demo (finance, lend, invest, roll, refinance). Tap through the Maya story at `/story` → `/share` → `/processing` → `/execute` → `/action` → `/done`. Use `?static=1` or `/gallery` when screenshotting slides 5–8.
+   Open the local Vite URL. `/` auto-plays the hypothetical demo. Tap through Maya at `/story`. **Judge live:** put `/live/host` on the laptop (QR poster). Judges open `/live`, scan a MacBook / iPhone / bike (or pick one), then approve or reject each line of the plan. Camera needs HTTPS or localhost; use the Vite Network URL on the same Wi-Fi. Use `?static=1` or `/gallery` when screenshotting slides.
 
 ## Contributing
 

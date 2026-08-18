@@ -75,3 +75,16 @@ SoFi already has the member, the license, and the products. **See it → price i
 - Neutral shopping-advice theater. SoFi executes SoFi products (say that in Q&A; don’t pretend otherwise).
 
 Full prototype, numbers, slides, and team packets: [SOFI-IT.md](SOFI-IT.md).
+
+## Judge live (interactive)
+
+The reel at `/` is the story. **`/live` is the room.**
+
+1. Laptop opens `/live/host` — QR for judges.
+2. Phone opens `/live` — mock SoFi account (cash, loan room, risk).
+3. Camera scan (laptop → MacBook, phone → iPhone, bicycle → bike). If vision misses, they pick the object. Backup QRs on the host page skip the camera.
+4. Street price is pulled (local market snapshot, presented as a live check).
+5. SoFi writes a plan: finance it, pay cash, ETF mix, stock sleeve, optional crypto. Judges **approve or reject each line**.
+6. **SoFi the approved steps** — the product still ends on execution, not a checklist.
+
+This is still a prototype: no real underwriting, no real brokerage tickets, no live Apple/Amazon scrape (those fail in a room). Camera needs HTTPS or localhost.
