@@ -1,10 +1,12 @@
 # SoFi-Coach
 
-SoFi-Coach is a personal finance coaching project. This repository is the starting point for the app, docs, and contribution workflow.
+**Start here:** [SOFI-IT.md](SOFI-IT.md) is the product and prototype spec. The team uses Parts A and B (locked concept, numbers, deck, ownership). A later Cursor Agent should read that file and implement Part C — a Vite + React + TypeScript iPhone prototype of Maya’s Zillow listing → SoFi-finances-it flow. Do not invent a second set of numbers or reopen the locked concept.
+
+SoFi It is an execution feature: share a listing or state an intent, and SoFi completes the job (finance, invest, lend). This repository is the starting point for the prototype, docs, and contribution workflow.
 
 ## Status
 
-The project is in early setup. Application code will land here as the product takes shape.
+[SOFI-IT.md](SOFI-IT.md) is the source of truth. Implement or align the six-screen prototype to Part C before changing copy or numbers.
 
 ## Getting started
 
@@ -15,7 +17,14 @@ The project is in early setup. Application code will land here as the product ta
    cd SoFi-Coach
    ```
 
-2. Review the docs in this repo, then follow setup notes as they are added.
+2. Install and run the prototype:
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+   Open the local Vite URL. After Part C is implemented, tap through `/` → `/share` → `/processing` → `/execute` → `/action` → `/done`. Use `?static=1` or `/gallery` when screenshotting slides 5–8.
 
 ## Contributing
 
