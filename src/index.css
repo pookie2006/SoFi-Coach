@@ -1,12 +1,13 @@
 :root {
-  --sofi-navy: #211747;
-  --sofi-navy-ink: #160e30;
+  --sofi-navy: #201747;
+  --sofi-navy-ink: #1f1646;
   --sofi-cyan: #00a2c7;
   --sofi-cyan-pressed: #00819d;
   --sofi-paper: #ffffff;
+  --sofi-mist: #e5e1e6;
   --sofi-ink: #212121;
   --sofi-ink-muted: #5c5868;
-  --sofi-hairline: rgba(33, 23, 71, 0.12);
+  --sofi-hairline: rgba(32, 23, 71, 0.12);
   --ios-bg: #f2f2f7;
   --ios-grouped: #ffffff;
   --ios-label: #000000;
@@ -38,7 +39,7 @@ body,
 }
 
 body {
-  background: #e8e6ef;
+  background: var(--sofi-mist);
   color: var(--sofi-ink);
   font-family: var(--ios-family);
   -webkit-font-smoothing: antialiased;

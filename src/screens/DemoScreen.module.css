@@ -18,6 +18,10 @@
   letter-spacing: 0.08em;
 }
 
+.sofiMark {
+  color: var(--sofi-cyan);
+}
+
 .rule {
   width: 36px;
   height: 3px;
@@ -51,31 +55,6 @@
 
 .outgoing {
   animation: fadeOut 400ms ease both;
-}
-
-.cursor {
-  position: absolute;
-  z-index: 40;
-  width: 22px;
-  height: 22px;
-  margin: -11px 0 0 -11px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: rgba(0, 162, 199, 0.4);
-  box-shadow: 0 0 0 6px rgba(0, 162, 199, 0.18);
-  transition:
-    left 350ms ease,
-    top 350ms ease,
-    opacity 200ms ease;
-  pointer-events: none;
-}
-
-.cursorOn {
-  animation: tap 1.2s ease-out 350ms infinite;
-}
-
-.cursorOff {
-  opacity: 0;
 }
 
 .caption {
@@ -218,20 +197,5 @@
   }
   to {
     width: 100%;
-  }
-}
-
-@keyframes tap {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(1.45);
-    opacity: 0.2;
-  }
-  100% {
-    transform: scale(1.45);
-    opacity: 0;
   }
 }

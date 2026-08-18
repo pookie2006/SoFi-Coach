@@ -1,12 +1,13 @@
 export const sofi = {
-  navy: "#211747",
-  navyInk: "#160E30",
+  navy: "#201747",
+  navyInk: "#1F1646",
   cyan: "#00A2C7",
   cyanPressed: "#00819D",
   paper: "#FFFFFF",
+  mist: "#E5E1E6",
   ink: "#212121",
   inkMuted: "#5C5868",
-  hairline: "rgba(33, 23, 71, 0.12)",
+  hairline: "rgba(32, 23, 71, 0.12)",
 } as const;
 
 export const ios = {
@@ -39,6 +40,7 @@ export const cssVariables: Record<string, string> = {
   "--sofi-cyan": sofi.cyan,
   "--sofi-cyan-pressed": sofi.cyanPressed,
   "--sofi-paper": sofi.paper,
+  "--sofi-mist": sofi.mist,
   "--sofi-ink": sofi.ink,
   "--sofi-ink-muted": sofi.inkMuted,
   "--sofi-hairline": sofi.hairline,

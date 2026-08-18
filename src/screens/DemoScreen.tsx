@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlanVsDo } from "../components/Diagrams";
 import { DeviceFrame } from "../components/DeviceFrame";
@@ -22,7 +22,6 @@ type Step = {
   id: string;
   holdMs: number;
   caption: string;
-  cursor?: { x: number; y: number };
   render: () => ReactNode;
 };
 
@@ -31,7 +30,9 @@ function TitleCard() {
     <div className={styles.card}>
       <StatusBar variant="light" />
       <div style={{ flex: 1, minHeight: 24 }} />
-      <p className={styles.cardKicker}>SoFi It</p>
+      <p className={styles.cardKicker}>
+        <span className={styles.sofiMark}>SoFi</span> It
+      </p>
       <div className={styles.cardRule} />
       <h1 className={styles.cardTitle}>SoFi does the thing.</h1>
       <p className={styles.cardLead}>It does not stop at a plan.</p>
@@ -44,7 +45,9 @@ function IdeaCard() {
     <div className={styles.card}>
       <StatusBar variant="light" />
       <div style={{ flex: 1, minHeight: 16 }} />
-      <p className={styles.cardKicker}>SoFi It</p>
+      <p className={styles.cardKicker}>
+        <span className={styles.sofiMark}>SoFi</span> It
+      </p>
       <div className={styles.cardRule} />
       <h1 className={styles.cardTitle}>See the plan. Then SoFi runs it.</h1>
       <div className={styles.diagram}>
@@ -69,14 +72,14 @@ function EndCard() {
     <div className={styles.card}>
       <StatusBar variant="light" />
       <div style={{ flex: 1 }} />
-      <p className={styles.cardKicker}>SoFi It</p>
+      <p className={styles.cardKicker}>
+        <span className={styles.sofiMark}>SoFi</span> It
+      </p>
       <div className={styles.cardRule} />
       <h1 className={styles.cardTitle}>
-        Screenshot it.
+        Scan It
         <br />
-        SoFi it.
-        <br />
-        SoFi does it.
+        &amp; SoFi It
       </h1>
       <p className={styles.cardLead}>Not a plan. The job.</p>
     </div>
@@ -105,14 +108,12 @@ function buildSteps(): Step[] {
       id: "source",
       holdMs: 5500,
       caption: `${scenario.person.firstName} · ${scenario.chat.threadName}`,
-      cursor: { x: 78, y: 44 },
       render: () => <SourceScreen />,
     },
     {
       id: "share",
       holdMs: 4200,
       caption: `${scenario.person.firstName} · SoFi It`,
-      cursor: { x: 62, y: 58 },
       render: () => <ShareScreen />,
     },
     {
@@ -125,14 +126,12 @@ function buildSteps(): Step[] {
       id: "execute",
       holdMs: 8500,
       caption: `${scenario.person.firstName} · SoFi finances ${format.shortStreet()}`,
-      cursor: { x: 50, y: 88 },
       render: () => <ExecuteScreen />,
     },
     {
       id: "action",
       holdMs: 4500,
       caption: `Confirm ${format.sofiApr()} mortgage`,
-      cursor: { x: 50, y: 88 },
       render: () => <ActionScreen />,
     },
     {
@@ -206,7 +205,7 @@ function buildSteps(): Step[] {
     {
       id: "end",
       holdMs: 7000,
-      caption: "Screenshot it. SoFi it. SoFi does it.",
+      caption: "Scan It & SoFi It",
       render: () => <EndCard />,
     },
   ];
@@ -220,11 +219,6 @@ export function DemoScreen() {
   const navigate = useNavigate();
   const { isStatic } = useStaticMode();
   const step = steps[index];
-  const lastCursor = useRef({ x: 50, y: 88 });
-
-  if (step.cursor) {
-    lastCursor.current = step.cursor;
-  }
 
   useEffect(() => {
     if (outgoing === null) return;
@@ -241,14 +235,13 @@ export function DemoScreen() {
     return () => window.clearTimeout(id);
   }, [index, playing, step.holdMs, steps.length]);
 
-  const cursor = lastCursor.current;
-  const showCursor = Boolean(step.cursor);
-
   return (
     <div className={styles.stage} style={cssVariables}>
       {isStatic ? null : (
         <>
-          <p className={styles.wordmark}>SoFi It</p>
+          <p className={styles.wordmark}>
+            <span className={styles.sofiMark}>SoFi</span> It
+          </p>
           <div className={styles.rule} />
         </>
       )}
@@ -267,10 +260,6 @@ export function DemoScreen() {
               {step.render()}
             </div>
           </div>
-          <div
-            className={`${styles.cursor} ${showCursor ? styles.cursorOn : styles.cursorOff}`}
-            style={{ left: `${cursor.x}%`, top: `${cursor.y}%` }}
-          />
         </DeviceFrame>
       </div>
 
