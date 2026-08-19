@@ -7,6 +7,11 @@
   font-family: var(--sofi-family);
 }
 
+.pageDark {
+  background: #000;
+  color: #fff;
+}
+
 .host {
   min-height: 100dvh;
   padding: 36px 28px 48px;
@@ -18,6 +23,55 @@
 .hostInner {
   max-width: 720px;
   margin: 0 auto;
+}
+
+.poster {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 28px 48px;
+  background: var(--sofi-navy);
+  color: #fff;
+  font-family: var(--sofi-family);
+  text-align: center;
+}
+
+.posterEmbed {
+  min-height: 0;
+  flex: 1;
+  width: min(460px, 100%);
+  padding: 8px 12px 0;
+}
+
+.posterTitle {
+  margin: 12px 0 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.9px;
+  line-height: 1.15;
+}
+
+.posterLead {
+  margin: 14px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.posterQr {
+  margin: 28px 0 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 24px;
+}
+
+.posterHint {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .kicker {
@@ -199,6 +253,81 @@
   text-align: center;
 }
 
+.jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.job {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--sofi-hairline);
+  border-radius: 16px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.jobEyebrow {
+  margin: 0;
+  color: var(--sofi-ink-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.jobTitle {
+  margin: 6px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.jobHero {
+  margin: 6px 0 0;
+  color: var(--sofi-navy);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.jobSub {
+  margin: 4px 0 0;
+  color: var(--sofi-ink-muted);
+  font-size: 14px;
+}
+
+.rows {
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--sofi-hairline);
+  border-radius: 16px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--sofi-hairline);
+  font-size: 14px;
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.row span:first-child {
+  color: var(--sofi-ink-muted);
+}
+
+.row span:last-child {
+  font-weight: 600;
+  text-align: right;
+}
+
 .picks {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -332,4 +461,97 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.receipt {
+  margin-top: 20px;
+  overflow: hidden;
+  border: 1px solid var(--sofi-hairline);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.receiptTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--sofi-navy);
+  color: #fff;
+}
+
+.receiptLabel {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.receiptId {
+  margin: 6px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.receiptStamp {
+  margin: 0;
+  color: var(--sofi-cyan);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.proof {
+  padding: 14px 16px;
+  border-top: 1px solid var(--sofi-hairline);
+}
+
+.proof_queued {
+  opacity: 0.45;
+}
+
+.proof_running {
+  background: rgba(0, 162, 199, 0.08);
+}
+
+.proofVerb {
+  margin: 0;
+  color: var(--sofi-cyan);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proofAmount {
+  margin: 4px 0 0;
+  color: var(--sofi-navy);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.proofRef {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.proofDetail {
+  margin: 6px 0 0;
+  color: var(--sofi-ink-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.hostCard {
+  display: block;
+  padding: 12px;
+  border-radius: 16px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
 }

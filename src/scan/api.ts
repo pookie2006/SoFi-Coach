@@ -1,0 +1,46 @@
+import type { Comp, VisionHit } from "./types";
+
+async function readError(response: Response, fallback: string) {
+  try {
+    const payload = (await response.json()) as { error?: string };
+    if (payload.error) return payload.error;
+  } catch {
+    // Keep the fallback.
+  }
+  return fallback;
+}
+
+export async function scanStatus() {
+  const response = await fetch("/api/scan-status");
+  if (!response.ok) {
+    throw new Error(
+      "This page is a static host. Start the laptop with npm run dev -- --host so phones can use /scan.",
+    );
+  }
+  return (await response.json()) as { vision: boolean; comps: boolean };
+}
+
+export async function identifyPhoto(image: string): Promise<VisionHit> {
+  const response = await fetch("/api/identify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image }),
+  });
+  if (!response.ok) {
+    throw new Error(await readError(response, "Could not name the object."));
+  }
+  return (await response.json()) as VisionHit;
+}
+
+export async function searchComps(vision: VisionHit): Promise<Comp[]> {
+  const response = await fetch("/api/comps", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: vision.name, brand: vision.brand }),
+  });
+  if (!response.ok) {
+    throw new Error(await readError(response, "Could not find comparable listings."));
+  }
+  const payload = (await response.json()) as { comps?: Comp[] };
+  return payload.comps ?? [];
+}

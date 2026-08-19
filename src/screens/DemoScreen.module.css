@@ -54,11 +54,11 @@
 }
 
 .incoming {
-  animation: fadeIn 400ms ease both;
+  animation: fadeIn 260ms ease both;
 }
 
 .outgoing {
-  animation: fadeOut 400ms ease both;
+  animation: fadeOut 260ms ease both;
 }
 
 .caption {

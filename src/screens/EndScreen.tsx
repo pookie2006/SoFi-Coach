@@ -19,7 +19,12 @@ export function EndScreen() {
         <br />
         &amp; SoFi It
       </h1>
-      <p className={styles.cardLead}>Not a plan. The job.</p>
+      <p className={styles.cardLead}>See what’s possible.</p>
+      <p className={styles.cardBody}>
+        Financial independence.
+        <br />
+        Realizing ambitions.
+      </p>
       <div style={{ flex: 1 }} />
       {locked || isStatic ? null : (
         <div style={{ padding: "0 28px" }}>

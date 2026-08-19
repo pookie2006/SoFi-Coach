@@ -39,7 +39,7 @@ Stated intent ┘
 
 | Door | How it starts | What SoFi does |
 |---|---|---|
-| **Share** (hero, built end-to-end) | Maya shares a Zillow listing | Originates the mortgage |
+| **Share** (hero, built end-to-end) | Luke shares a Zillow listing | Originates the mortgage |
 | **Intent** (same engine, breadth only) | “Invest in clean energy, moderate risk” / “I need an auto loan” | Allocates the portfolio / originates the loan |
 
 Do not build a second full intent flow. Breadth cards prove the second door.
@@ -51,7 +51,7 @@ Do not build a second full intent flow. Breadth cards prove the second door.
 | Hero job | Home financing from a Zillow share | The thesis is “SoFi does it.” A listing SoFi can fund is the proof. |
 | Hero visual | Phillips Building, 234 1st Street, SF — **fictional loft Unit 4B** | Judges will recognize SoFi HQ. The real building is **not for sale**. Do not claim it is. Photo + address are the hook. |
 | Prototype fidelity | Static screens first, then click-through | Six finished screens are the guaranteed deliverable. The live demo must never depend on camera, network, Zillow, or OCR. |
-| Demo person | Maya, 29 | Market can be broad. The demo is one named person. |
+| Demo person | Luke, 29 | Market can be broad. The demo is one named person. |
 | Dual entry | Product is two doors; only share is built E2E | Intent is proven on `/breadth`, not as a second hero. |
 | Stack | Vite + React + TypeScript | Fastest path to an iPhone-framed, screenshot-ready web prototype. |
 
@@ -59,14 +59,14 @@ Do not build a second full intent flow. Breadth cards prove the second door.
 
 These are known risks, not prototype blockers. **Do not build UI for either.**
 
-1. **Conflict-of-interest posture** — open marketplace vs. SoFi-only with transparent market benchmarks. Sharper now: we are not a neutral decoder; we **execute SoFi products**. Still iterating. Does not change Maya’s six screens.
-2. **Non-member cold-start flow** — working direction: non-members see the job SoFi *would* run; the tap to execute requires signup. Demo assumes Maya is a member.
+1. **Conflict-of-interest posture** — open marketplace vs. SoFi-only with transparent market benchmarks. Sharper now: we are not a neutral decoder; we **execute SoFi products**. Still iterating. Does not change Luke’s six screens.
+2. **Non-member cold-start flow** — working direction: non-members see the job SoFi *would* run; the tap to execute requires signup. Demo assumes Luke is a member.
 
 ## A4. Canonical numbers
 
 Use these exact figures in the deck, the prototype, and any video. **Nobody invents replacements.** All UI amounts come from `src/data/scenario.ts` (see C5). Display tildes only where this table shows `~`.
 
-Maya, 29. Group chat. Someone drops a Zillow link: a loft in the Phillips Building.
+Luke, 29. Group chat. Someone drops a Zillow link: a loft in the Phillips Building.
 
 **Demo listing only.** The Phillips Building is SoFi’s San Francisco HQ. Unit 4B is fictional. Never say the HQ is on the market.
 
@@ -128,7 +128,7 @@ Intro slide (names, photos, school) and agenda do **not** count against the 10�
 
 | # | Slide | Job |
 |---|---|---|
-| 1 | The Hook | Maya, the Phillips listing in the chat, “is this even possible??” Land the feeling before the concept. No statistics. Judges should recognize the building. |
+| 1 | The Hook | Luke, the Phillips listing in the chat, “is this even possible??” Land the feeling before the concept. No statistics. Judges should recognize the building. |
 | 2 | The Insight | People already screenshot listings and ask. Nothing *does* the next step. Show the behavior, not research stats. |
 | 3 | Why Nobody Owns This | Explainers cannot fund. Banks cannot start from Zillow. Landscape as an opening, not a table. |
 | 4 | The Solution: SoFi It | Two taps, two doors, one engine: **SoFi does it.** One-sentence slide. |
@@ -174,7 +174,7 @@ Build the six screens in Part C, static first, then click-through. Post screens 
 
 **Owns:** slides 11–12 and the closing line.
 
-- Verify Maya’s mortgage math. Run amortization on both rates. If `$1,100` / `~$397,000` is off, correct `scenario.ts` and tell everyone immediately.
+- Verify Luke’s mortgage math. Run amortization on both rates. If `$1,100` / `~$397,000` is off, correct `scenario.ts` and tell everyone immediately.
 - Check the SoFi rate against a **current public** SoFi mortgage ballpark. Do not invent a rate in the room.
 - Pull **current** SoFi figures from the most recent earnings release: member count, products per member, growth rate. Do not use memory or an AI. A wrong number in front of SoFi employees is worse than no number.
 - **North Star:** jobs SoFi completed per member per quarter (measures the verb *do*, not the app).
@@ -195,7 +195,7 @@ Build the six screens in Part C, static first, then click-through. Post screens 
 
 **Owns:** slides 1–3. Sets emotional tone.
 
-- **Hook:** Maya in the group chat. The Phillips Building on Zillow. “Is this even possible??” Feeling before concept. No statistics on slide 1. Let the room recognize the building.
+- **Hook:** Luke in the group chat. The Phillips Building on Zillow. “Is this even possible??” Feeling before concept. No statistics on slide 1. Let the room recognize the building.
 - **Insight:** show the behavior — a group chat, a listing screenshot, the ask. Nothing finishes the job.
 - **Gap:** explainers can’t fund; banks only read their own paper.
 - Own the frequency Q&A answer (B4 #3).
@@ -264,7 +264,7 @@ Q2 is about **execution**, not a recommendation card.
 
 - All four packets start in parallel.
 - Designer / agent: screens 1–4 first. **Screen 4 needs group review.** If `$1,100` does not hit as “SoFi will finance this,” everything downstream weakens.
-- Finance confirms Maya’s numbers early so nobody builds on a wrong figure.
+- Finance confirms Luke’s numbers early so nobody builds on a wrong figure.
 - Conflict-of-interest posture decided before the engineer finalizes slide 9.
 
 **Then**
@@ -286,11 +286,11 @@ Q2 is about **execution**, not a recommendation card.
 
 This is what gets implemented. Follow it literally.
 
-If this repo already contains an older auto-loan prototype, **bring it in line with this spec.** Do not leave Maya’s Civic / `$3,830` / “You're overpaying by” anywhere in product UI. Replace data, copy, routes, and screens 1 and 4–6. Keep DeviceFrame, tokens, and share-sheet chrome if they already match C3–C4.
+If this repo already contains an older auto-loan prototype, **bring it in line with this spec.** Do not leave Luke’s Civic / `$3,830` / “You're overpaying by” anywhere in product UI. Replace data, copy, routes, and screens 1 and 4–6. Keep DeviceFrame, tokens, and share-sheet chrome if they already match C3–C4.
 
 ## C1. Mission
 
-Build a **static-first, then clickable**, iPhone-framed web prototype of **Maya’s Zillow → SoFi-finances-it flow**. Export-friendly for slides 5–7.
+Build a **static-first, then clickable**, iPhone-framed web prototype of **Luke’s Zillow → SoFi-finances-it flow**. Export-friendly for slides 5–7.
 
 The product story the UI must make obvious:
 
@@ -378,7 +378,7 @@ export const viewport = {
 - **Inner viewport is exactly `393×852`.** All screen UI lives inside it.
 - Device frame: black bezel, rounded clip (`~55px` inner radius), **Dynamic Island**, home indicator on screens that need it.
 - Status bar (all screens): time `9:41`, cellular, Wi‑Fi, battery. Use a simple `StatusBar` component; do not fake carrier names.
-- Page around the phone may include a tiny caption (`SoFi It · Maya`) for the presenter. **`?static=1` hides that caption** so a crop of the `393×852` surface is clean.
+- Page around the phone may include a tiny caption (`SoFi It · Luke`) for the presenter. **`?static=1` hides that caption** so a crop of the `393×852` surface is clean.
 
 ## C5. Data contract — single source of numbers
 
@@ -387,7 +387,7 @@ Create `src/data/scenario.ts`. **UI never hardcodes a second set of listing or m
 ```ts
 export const scenario = {
   person: {
-    firstName: "Maya",
+    firstName: "Luke",
     age: 29,
     cityLine: "Group chat · SoMa listing",
   },
@@ -465,7 +465,7 @@ export const scenario = {
 
 Use `Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })` for dollar amounts. Other APR: three decimal places. SoFi APR: two decimal places.
 
-**Breadth cards** are demo-only and live in the same file so slide 8 cannot drift. They are **completed jobs**, not decodes. They are **not** Maya mortgage figures and are **not** finance-verified.
+**Breadth cards** are demo-only and live in the same file so slide 8 cannot drift. They are **completed jobs**, not decodes. They are **not** Luke mortgage figures and are **not** finance-verified.
 
 ## C6. Routes and screens
 
@@ -625,7 +625,7 @@ Tiny caption allowed under the address, 10px, not a legal banner: `Demo listing`
 
 **Required hierarchy, top → bottom — do not reorder**
 
-1. Eyebrow (small, muted): `Maya · 234 1st St`
+1. Eyebrow (small, muted): `Luke · 234 1st St`
 2. **The number:** `$1,100` — largest element on screen. ~64–72px, weight 700–800, `sofi.navy`, tabular lining if possible. **This is the only hero number.**
 3. Label immediately under the number (17–20px): `less per month if SoFi finances this`
 4. Comparison row (not competing with the hero):

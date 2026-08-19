@@ -1,3 +1,14 @@
+import { barcelona, studentStatement } from "./ambition";
+import { scenario } from "./scenario";
+
+export type PurchaseKind =
+  | "retail"
+  | "home"
+  | "homeImprovement"
+  | "tuition"
+  | "studentRefi"
+  | "debt";
+
 export type CatalogItem = {
   id: string;
   name: string;
@@ -10,9 +21,11 @@ export type CatalogItem = {
   identifiedAs?: string;
   asOf?: string;
   image?: string;
+  category?: string;
+  purchaseKind?: PurchaseKind;
 };
 
-export const liveCatalog: CatalogItem[] = [
+export const objectCatalog: CatalogItem[] = [
   {
     id: "macbook",
     name: "MacBook Pro 14\"",
@@ -20,7 +33,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 1_999,
     streetHigh: 2_199,
     coco: ["laptop"],
-    blurb: "M4 · 16GB · 512GB. Fits a personal loan without draining cash.",
+    blurb: "M4 · 16GB · 512GB. Under the personal-loan floor — Pay in 4 or the card.",
     source: "Street snapshot · Apple / major retailers",
   },
   {
@@ -30,7 +43,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 999,
     streetHigh: 1_099,
     coco: ["cell phone"],
-    blurb: "You have the cash. SoFi can still finance it so the buffer stays.",
+    blurb: "Cash clears it. Pay in 4 or the card keeps the checking buffer.",
     source: "Street snapshot · Apple / major retailers",
   },
   {
@@ -40,7 +53,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 749,
     streetHigh: 890,
     coco: ["bicycle"],
-    blurb: "A cash or loan call. Leftover cash can go to work in the brokerage.",
+    blurb: "A cash, Pay in 4, or card call. Leftover cash can go to the brokerage.",
     source: "Street snapshot · specialty retail",
   },
   {
@@ -50,16 +63,59 @@ export const liveCatalog: CatalogItem[] = [
     price: 249,
     streetHigh: 279,
     coco: [],
-    blurb: "Small enough to pay cash. SoFi can invest what you don’t spend.",
+    blurb: "Small enough to debit checking. Pay in 4 or the card if you want the buffer.",
     source: "Street snapshot · Apple / major retailers",
   },
 ];
+
+export const jobCatalog: CatalogItem[] = [
+  {
+    id: "loft",
+    name: `${scenario.listing.address} loft`,
+    brand: scenario.listing.building,
+    price: scenario.listing.price,
+    streetHigh: scenario.listing.price,
+    blurb: `${scenario.listing.building} · ${scenario.listing.neighborhood}. Demo listing only — HQ is not for sale.`,
+    source: "Luke · Zillow share",
+    purchaseKind: "home",
+  },
+  {
+    id: "barcelona",
+    name: barcelona.program,
+    brand: barcelona.school,
+    price: barcelona.sticker,
+    streetHigh: barcelona.sticker,
+    blurb: `${barcelona.school} aid is already in. SoFi covers the gap and the deposit.`,
+    source: "Study abroad packet",
+    purchaseKind: "tuition",
+  },
+  {
+    id: "statement",
+    name: "Student loan statement",
+    brand: "Servicer statement",
+    price: studentStatement.balance,
+    streetHigh: studentStatement.balance,
+    blurb: "SoFi refinances the remaining balance. Same student-loan job as the reel.",
+    source: "Student loan statement",
+    purchaseKind: "studentRefi",
+  },
+];
+
+export const liveCatalog: CatalogItem[] = [...objectCatalog, ...jobCatalog];
 
 export function itemById(id: string | null | undefined) {
   return liveCatalog.find((item) => item.id === id) ?? null;
 }
 
+export function isShowroomJob(item: CatalogItem) {
+  return (
+    item.purchaseKind === "home" ||
+    item.purchaseKind === "tuition" ||
+    item.purchaseKind === "studentRefi"
+  );
+}
+
 export function itemFromCoco(label: string) {
   const normalized = label.toLowerCase();
-  return liveCatalog.find((item) => item.coco?.includes(normalized)) ?? null;
+  return objectCatalog.find((item) => item.coco?.includes(normalized)) ?? null;
 }

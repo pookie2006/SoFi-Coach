@@ -8,9 +8,11 @@ SoFi It is an execution feature: share a listing or state an intent, and SoFi co
 
 https://pookie2006.github.io/SoFi-Coach/
 
+**Scan V1 (judges, no Expo Go):** photo → vision name → shopping comps → price range. Put `/scan/host` on the laptop. Judges scan the QR with the Phone Camera app and land on `/scan`. See [scan/README.md](scan/README.md).
+
 ## Status
 
-The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Maya shares a Zillow listing; SoFi originates the mortgage.
+The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Luke shares a Zillow listing; SoFi originates the mortgage.
 
 ## Getting started
 
@@ -25,10 +27,10 @@ The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Maya shares a 
 
    ```bash
    npm install
-   npm run dev
+   npm run demo
    ```
 
-   Open the local Vite URL. `/` auto-plays the hypothetical demo. Tap through Maya at `/story`. **Judge live:** put `/live/host` on the laptop (QR poster). Judges open `/live`, scan an object (laptop, cup, backpack, bike…), the camera names it, a listing search prices it, then they approve or reject each line. Camera needs HTTPS or localhost. Use `?static=1` or `/gallery` when screenshotting slides.
+   SoFi It is **http://localhost:5180** on this laptop (5173 is often another Vite app). **Judge live (any Wi-Fi, no Expo Go):** `npm run demo` opens a public HTTPS tunnel. Laptop shows `/scan/host`; judges scan that QR with Phone Camera. Keys stay in `scan/.env`. Use `?static=1` or `/gallery` when screenshotting slides.
 
 ## Contributing
 

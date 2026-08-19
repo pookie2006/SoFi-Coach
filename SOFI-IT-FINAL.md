@@ -33,14 +33,14 @@ Every job has two beats. Both are required.
 1. **The plan** — plain English, one dominant number, the steps SoFi will take. This is the pre-flight, not the product.
 2. **The action** — one button that executes: finance it, invest it, originate it, roll it. SoFi is the bank, the lender, and the brokerage, so the button is real.
 
-Example (hero demo — Maya, 29):
+Example (hero demo — Luke, 29):
 
 - **Ask:** A group chat drops a Zillow loft at **234 1st St, Unit 4B** (Phillips Building, SoMa — **demo listing only**; HQ is not for sale).
 - **Plan:** Their estimate **7.125% (~$9,975/mo)** vs SoFi **6.00% (~$8,873/mo)**.
 - **Number:** **$1,100 less per month** if SoFi finances it (~$397,000 over the loan).
 - **Action:** **Let SoFi finance it** → SoFi originates the **$1,480,000** mortgage. Not “save this plan.” Not “talk to an advisor.”
 
-The plan exists so she can see what she is authorizing. The product is the authorization.
+The plan exists so he can see what he is authorizing. The product is the authorization.
 
 ---
 
@@ -78,13 +78,13 @@ Full prototype, numbers, slides, and team packets: [SOFI-IT.md](SOFI-IT.md).
 
 ## Judge live (interactive)
 
-The reel at `/` is the story. **`/live` is the room.**
+The reel at `/` is the story. **`/scan` is the room.** Judges use Phone Camera — no Expo Go.
 
-1. Laptop opens `/live/host` — QR for judges.
-2. Phone opens `/live` — mock SoFi account (cash, loan room, risk).
-3. Camera scan (laptop → MacBook, phone → iPhone, bicycle → bike). If vision misses, they pick the object. Backup QRs on the host page skip the camera.
-4. Street price is pulled (local market snapshot, presented as a live check).
-5. SoFi writes a plan: finance it, pay cash, ETF mix, stock sleeve, optional crypto. Judges **approve or reject each line**.
-6. **SoFi the approved steps** — the product still ends on execution, not a checklist.
+1. Laptop runs `npm run demo` (public HTTPS tunnel) and opens `/scan/host` — QR for judges.
+2. Phone Camera opens `/scan` on any Wi-Fi (a website, not `exp://`).
+3. One still photo. Vision names the object. Live comps set a low / typical / high range.
+4. Optional coco path at `/live` still writes a finance / cash / invest plan they can approve line by line.
 
-This is still a prototype: no real underwriting, no real brokerage tickets, no live Apple/Amazon scrape (those fail in a room). Camera needs HTTPS or localhost.
+The camera is the object path only. **SoMa loft**, **Barcelona semester**, and **student-loan statement** are tappable jobs on `/live` and `/scan` — locked receipts, not OCR. Same engine: approve the steps, SoFi originates or refinances. Prototype experience, not a SoFi-app integration.
+
+This is still a prototype: no real underwriting. Vision keys stay in `scan/.env` on the laptop. GitHub Pages cannot run that proxy.

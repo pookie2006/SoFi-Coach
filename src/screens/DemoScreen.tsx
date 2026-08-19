@@ -11,13 +11,19 @@ import { BreadthScreen } from "./BreadthScreen";
 import styles from "./DemoScreen.module.css";
 import { DoneScreen } from "./DoneScreen";
 import { EndScreen } from "./EndScreen";
+import { JudgeScan } from "./scan/JudgeScan";
 import { ExecuteScreen } from "./ExecuteScreen";
 import { JobVignette } from "./JobVignette";
 import { ProcessingScreen } from "./ProcessingScreen";
 import { ShareScreen } from "./ShareScreen";
 import { SourceScreen } from "./SourceScreen";
 
-const CROSSFADE_MS = 400;
+const CROSSFADE_MS = 260;
+
+function holdMs(copy: string, glance = 0) {
+  const words = copy.trim().split(/\s+/).filter(Boolean).length;
+  return Math.round(Math.min(5200, Math.max(1800, 1000 + words * 170 + glance)));
+}
 
 type Step = {
   id: string;
@@ -35,8 +41,13 @@ function TitleCard() {
         <span className={styles.sofiMark}>SoFi</span> It
       </p>
       <div className={styles.cardRule} />
-      <h1 className={styles.cardTitle}>SoFi does the thing.</h1>
-      <p className={styles.cardLead}>It does not stop at a plan.</p>
+      <h1 className={styles.cardTitle}>See what’s possible.</h1>
+      <p className={styles.cardLead}>
+        Financial independence.
+        <br />
+        Realizing ambitions.
+      </p>
+      <p className={styles.cardBody}>SoFi It means see it — then SoFi does it.</p>
     </div>
   );
 }
@@ -55,14 +66,8 @@ function IdeaCard() {
         <PlanVsDo />
       </div>
       <p className={styles.cardBody}>
-        ChatGPT and most coaches end at “here’s what you could do.”
-      </p>
-      <p className={styles.cardBody}>
-        SoFi It writes the short plan so you can see what you’re authorizing.
-      </p>
-      <p className={styles.cardBody}>
-        Then it originates the mortgage, funds the auto loan, invests to an
-        industry and risk, refinances, or rolls the 401(k).
+        SoFi It means see what’s possible — then originate, invest, refinance,
+        or roll it.
       </p>
     </div>
   );
@@ -76,60 +81,68 @@ function buildSteps(): Step[] {
   return [
     {
       id: "open",
-      holdMs: 7000,
-      caption: "SoFi does the thing.",
+      holdMs: holdMs(
+        "See what’s possible. Financial independence. Realizing ambitions. SoFi It means see it — then SoFi does it.",
+      ),
+      caption: "See what’s possible.",
       render: () => <TitleCard />,
     },
     {
       id: "idea",
-      holdMs: 11000,
+      holdMs: holdMs(
+        "See the plan. Then SoFi runs it. SoFi It means see what’s possible — then originate, invest, refinance, or roll it.",
+        400,
+      ),
       caption: "See the plan. Then SoFi runs it.",
       render: () => <IdeaCard />,
     },
     {
       id: "source",
-      holdMs: 5500,
+      holdMs: holdMs(`${scenario.person.firstName} ${scenario.chat.threadName}`, 900),
       caption: `${scenario.person.firstName} · ${scenario.chat.threadName}`,
       render: () => <SourceScreen />,
     },
     {
       id: "share",
-      holdMs: 4200,
+      holdMs: holdMs(`${scenario.person.firstName} SoFi It`, 600),
       caption: `${scenario.person.firstName} · SoFi It`,
       render: () => <ShareScreen />,
     },
     {
       id: "processing",
-      holdMs: 5000,
+      holdMs: holdMs(`Home to finance ${format.shortStreet()}`, 800),
       caption: `Home to finance · ${format.shortStreet()}`,
       render: () => <ProcessingScreen />,
     },
     {
       id: "execute",
-      holdMs: 8500,
+      holdMs: holdMs(
+        `${scenario.person.firstName} SoFi finances ${format.shortStreet()}`,
+        1600,
+      ),
       caption: `${scenario.person.firstName} · SoFi finances ${format.shortStreet()}`,
       render: () => <ExecuteScreen />,
     },
     {
       id: "action",
-      holdMs: 4500,
+      holdMs: holdMs(`Confirm ${format.sofiApr()} mortgage`),
       caption: `Confirm ${format.sofiApr()} mortgage`,
       render: () => <ActionScreen />,
     },
     {
       id: "done",
-      holdMs: 5200,
+      holdMs: holdMs("SoFi is originating", 400),
       caption: "SoFi is originating",
       render: () => <DoneScreen />,
     },
     {
       id: "auto",
-      holdMs: 5000,
-      caption: `${scenario.person.firstName} · auto loan`,
+      holdMs: holdMs(`${scenario.person.firstName} personal loan`, 500),
+      caption: `${scenario.person.firstName} · personal loan`,
       render: () => (
         <JobVignette
           kind="auto"
-          quote="I need an auto loan"
+          quote="I need a personal loan for this car"
           number={job("auto").number}
           label={job("auto").label}
           caption={job("auto").caption}
@@ -138,7 +151,7 @@ function buildSteps(): Step[] {
     },
     {
       id: "invest",
-      holdMs: 5200,
+      holdMs: holdMs(`${scenario.person.firstName} clean energy`, 500),
       caption: `${scenario.person.firstName} · clean energy`,
       render: () => (
         <JobVignette
@@ -152,7 +165,7 @@ function buildSteps(): Step[] {
     },
     {
       id: "401k",
-      holdMs: 5000,
+      holdMs: holdMs(`${scenario.person.firstName} 401(k)`, 500),
       caption: `${scenario.person.firstName} · 401(k)`,
       render: () => (
         <JobVignette
@@ -166,7 +179,7 @@ function buildSteps(): Step[] {
     },
     {
       id: "student",
-      holdMs: 5000,
+      holdMs: holdMs(`${scenario.person.firstName} student loan`, 500),
       caption: `${scenario.person.firstName} · student loan`,
       render: () => (
         <JobVignette
@@ -180,14 +193,16 @@ function buildSteps(): Step[] {
     },
     {
       id: "breadth",
-      holdMs: 5500,
+      holdMs: holdMs("SoFi did these too", 900),
       caption: "SoFi did these too",
       render: () => <BreadthScreen />,
     },
     {
       id: "end",
-      holdMs: 7000,
-      caption: "Scan It & SoFi It",
+      holdMs: holdMs(
+        "Scan It & SoFi It. See what’s possible. Financial independence. Realizing ambitions.",
+      ),
+      caption: "See what’s possible.",
       render: () => <EndScreen />,
     },
   ];
@@ -198,6 +213,7 @@ export function DemoScreen() {
   const [index, setIndex] = useState(0);
   const [outgoing, setOutgoing] = useState<number | null>(null);
   const [playing, setPlaying] = useState(true);
+  const [tab, setTab] = useState<"reel" | "judge">("reel");
   const navigate = useNavigate();
   const { isStatic } = useStaticMode();
   const step = steps[index];
@@ -219,7 +235,7 @@ export function DemoScreen() {
   }, [index, isStatic, steps.length]);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || tab === "judge") return;
     const last = index >= steps.length - 1;
     const id = window.setTimeout(() => {
       if (last) {
@@ -229,14 +245,14 @@ export function DemoScreen() {
       goNext();
     }, step.holdMs);
     return () => window.clearTimeout(id);
-  }, [goNext, index, playing, step.holdMs]);
+  }, [goNext, index, playing, step.holdMs, tab]);
 
   return (
     <div
       className={`${styles.stage} ${isStatic ? "" : styles.skippable}`}
       style={cssVariables}
       onClick={
-        isStatic
+        isStatic || tab === "judge"
           ? undefined
           : (event) => {
               if ((event.target as HTMLElement).closest("button")) return;
@@ -253,47 +269,61 @@ export function DemoScreen() {
         </>
       )}
 
-      <div className={styles.phoneWrap}>
-        <DeviceFrame caption={null} variant="item">
-          <PlaybackLock>
-            <div className={`${styles.viewport} ${styles.frozen}`}>
-              {outgoing !== null ? (
-                <div className={`${styles.layer} ${styles.outgoing}`}>
-                  {steps[outgoing].render()}
+      {tab === "judge" ? (
+        <JudgeScan embedded />
+      ) : (
+        <div className={styles.phoneWrap}>
+          <DeviceFrame caption={null} variant="item">
+            <PlaybackLock>
+              <div className={`${styles.viewport} ${styles.frozen}`}>
+                {outgoing !== null ? (
+                  <div className={`${styles.layer} ${styles.outgoing}`}>
+                    {steps[outgoing].render()}
+                  </div>
+                ) : null}
+                <div
+                  className={`${styles.layer} ${outgoing === null ? "" : styles.incoming}`}
+                >
+                  {step.render()}
                 </div>
-              ) : null}
-              <div
-                className={`${styles.layer} ${outgoing === null ? "" : styles.incoming}`}
-              >
-                {step.render()}
               </div>
-            </div>
-          </PlaybackLock>
-        </DeviceFrame>
-      </div>
+            </PlaybackLock>
+          </DeviceFrame>
+        </div>
+      )}
 
       {isStatic ? null : (
         <>
-          <p className={styles.caption}>{step.caption}</p>
-          <div className={styles.bar} aria-hidden="true">
-            <div
-              key={step.id}
-              className={`${styles.fill} ${playing ? "" : styles.paused}`}
-              style={{ animationDuration: `${step.holdMs}ms` }}
-            />
-          </div>
+          {tab === "judge" ? (
+            <p className={styles.caption}>See what’s possible.</p>
+          ) : (
+            <>
+              <p className={styles.caption}>{step.caption}</p>
+              <div className={styles.bar} aria-hidden="true">
+                <div
+                  key={step.id}
+                  className={`${styles.fill} ${playing ? "" : styles.paused}`}
+                  style={{ animationDuration: `${step.holdMs}ms` }}
+                />
+              </div>
+            </>
+          )}
           <div className={styles.controls}>
             <button
               type="button"
               className={styles.btn}
-              onClick={() => setPlaying((on) => !on)}
+              onClick={() => {
+                setTab("reel");
+                setPlaying((on) => !on);
+              }}
             >
-              {playing ? "Pause" : "Play"}
+              {playing && tab === "reel" ? "Pause" : "Play"}
             </button>
             <button
               type="button"
               className={styles.btn}
               onClick={() => {
+                setTab("reel");
                 setOutgoing(index);
                 setIndex(0);
                 setPlaying(true);
@@ -310,10 +340,19 @@ export function DemoScreen() {
             </button>
             <button
               type="button"
-              className={styles.btn}
-              onClick={() => navigate("/live")}
+              className={`${styles.btn} ${tab === "judge" ? styles.btnPrimary : ""}`}
+              onClick={() => {
+                setTab((current) => {
+                  if (current === "judge") {
+                    setPlaying(true);
+                    return "reel";
+                  }
+                  setPlaying(false);
+                  return "judge";
+                });
+              }}
             >
-              Judge live
+              Judge scan
             </button>
           </div>
         </>
