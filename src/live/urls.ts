@@ -6,11 +6,13 @@ function siteBase(origin = window.location.origin) {
 }
 
 export function liveHref(suffix = "", origin = window.location.origin) {
-  return new URL(`live${suffix}`, siteBase(origin)).href;
+  const tail = suffix.replace(/^\//, "");
+  return new URL(tail ? `live/${tail}/` : "live/", siteBase(origin)).href;
 }
 
 export function scanHref(suffix = "", origin = window.location.origin) {
-  return new URL(`scan${suffix}`, siteBase(origin)).href;
+  const tail = suffix.replace(/^\//, "");
+  return new URL(tail ? `scan/${tail}/` : "scan/", siteBase(origin)).href;
 }
 
 export function objectHref(id: string, origin = window.location.origin) {
