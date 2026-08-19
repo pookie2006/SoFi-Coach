@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  aprPct,
   liveAccount,
   money,
   riskLabels,
@@ -13,6 +12,7 @@ import {
   applyExclusiveToggle,
   approvedSteps,
   buildPlan,
+  executionLine,
   seedApproved,
 } from "../../live/buildPlan";
 import { lookupPrice, priceKnownItem } from "../../live/lookupPrice";
@@ -145,8 +145,9 @@ export function LiveApp() {
           <p className={styles.heroNum}>{money(item.price)}</p>
           <p className={styles.muted}>{item.blurb}</p>
           <p className={styles.muted}>
-            Cash {money(liveAccount.cash)} · loan room{" "}
-            {money(liveAccount.personalLoanLimit)} · risk
+            Cash {money(liveAccount.cash)} · card{" "}
+            {money(liveAccount.creditAvailable)} · loan room{" "}
+            {money(liveAccount.personalLoanLimit)}
           </p>
           <div className={styles.riskRow}>
             {(Object.keys(riskLabels) as RiskLevel[]).map((level) => (
@@ -162,13 +163,12 @@ export function LiveApp() {
           </div>
           {steps.map((step) => {
             const on = Boolean(approved[step.id]);
-            const cashBlocked = step.id === "cash" && liveAccount.cash < item.price;
             return (
               <button
                 key={step.id}
                 type="button"
                 className={`${styles.step} ${on ? styles.stepOn : ""}`}
-                disabled={cashBlocked}
+                disabled={step.disabled}
                 onClick={() =>
                   setApproved((current) =>
                     applyExclusiveToggle(steps, current, step.id, !on),
@@ -212,15 +212,7 @@ export function LiveApp() {
             ) : (
               kept.map((step) => (
                 <p key={step.id} className={styles.stepDetail}>
-                  {step.kind === "loan"
-                    ? `Originating a ${money(step.amount)} personal loan at ${aprPct(liveAccount.personalLoanApr)}.`
-                    : step.kind === "cash"
-                      ? `Debiting ${money(step.amount)} from checking.`
-                      : step.kind === "etf"
-                        ? `Allocating ${money(step.amount)} across ETFs.`
-                        : step.kind === "stocks"
-                          ? `Buying ${money(step.amount)} in stocks.`
-                          : `Booking ${money(step.amount)} in the optional crypto sleeve.`}
+                  {executionLine(step)}
                 </p>
               ))
             )}
@@ -293,8 +285,8 @@ function Home({
       <h1 className={styles.title}>Scan it. SoFi does it.</h1>
       <p className={styles.lead}>
         Scan an object. The camera names it, we look up a street price, then
-        SoFi writes a plan — finance it, pay cash, or invest — that you approve
-        or reject line by line.
+        SoFi writes a plan — debit, Pay in 4, card, or a SoFi loan — that you
+        approve or reject line by line.
       </p>
       <div className={styles.stats}>
         <div className={styles.stat}>
@@ -304,6 +296,10 @@ function Home({
         <div className={styles.stat}>
           <p className={styles.statLabel}>Brokerage</p>
           <p className={styles.statValue}>{money(liveAccount.brokerage)}</p>
+        </div>
+        <div className={styles.stat}>
+          <p className={styles.statLabel}>Card</p>
+          <p className={styles.statValue}>{money(liveAccount.creditAvailable)}</p>
         </div>
         <div className={styles.stat}>
           <p className={styles.statLabel}>Personal loan room</p>

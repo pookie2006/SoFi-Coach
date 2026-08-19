@@ -1,3 +1,10 @@
+export type PurchaseKind =
+  | "retail"
+  | "home"
+  | "homeImprovement"
+  | "tuition"
+  | "debt";
+
 export type CatalogItem = {
   id: string;
   name: string;
@@ -10,6 +17,8 @@ export type CatalogItem = {
   identifiedAs?: string;
   asOf?: string;
   image?: string;
+  category?: string;
+  purchaseKind?: PurchaseKind;
 };
 
 export const liveCatalog: CatalogItem[] = [
@@ -20,7 +29,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 1_999,
     streetHigh: 2_199,
     coco: ["laptop"],
-    blurb: "M4 · 16GB · 512GB. Fits a personal loan without draining cash.",
+    blurb: "M4 · 16GB · 512GB. Under the personal-loan floor — Pay in 4 or the card.",
     source: "Street snapshot · Apple / major retailers",
   },
   {
@@ -30,7 +39,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 999,
     streetHigh: 1_099,
     coco: ["cell phone"],
-    blurb: "You have the cash. SoFi can still finance it so the buffer stays.",
+    blurb: "Cash clears it. Pay in 4 or the card keeps the checking buffer.",
     source: "Street snapshot · Apple / major retailers",
   },
   {
@@ -40,7 +49,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 749,
     streetHigh: 890,
     coco: ["bicycle"],
-    blurb: "A cash or loan call. Leftover cash can go to work in the brokerage.",
+    blurb: "A cash, Pay in 4, or card call. Leftover cash can go to the brokerage.",
     source: "Street snapshot · specialty retail",
   },
   {
@@ -50,7 +59,7 @@ export const liveCatalog: CatalogItem[] = [
     price: 249,
     streetHigh: 279,
     coco: [],
-    blurb: "Small enough to pay cash. SoFi can invest what you don’t spend.",
+    blurb: "Small enough to debit checking. Pay in 4 or the card if you want the buffer.",
     source: "Street snapshot · Apple / major retailers",
   },
 ];

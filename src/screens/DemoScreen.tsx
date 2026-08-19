@@ -61,7 +61,7 @@ function IdeaCard() {
         SoFi It writes the short plan so you can see what you’re authorizing.
       </p>
       <p className={styles.cardBody}>
-        Then it originates the mortgage, funds the auto loan, invests to an
+        Then it originates the mortgage, funds the personal loan, invests to an
         industry and risk, refinances, or rolls the 401(k).
       </p>
     </div>
@@ -125,11 +125,11 @@ function buildSteps(): Step[] {
     {
       id: "auto",
       holdMs: 5000,
-      caption: `${scenario.person.firstName} · auto loan`,
+      caption: `${scenario.person.firstName} · personal loan`,
       render: () => (
         <JobVignette
           kind="auto"
-          quote="I need an auto loan"
+          quote="I need a personal loan for this car"
           number={job("auto").number}
           label={job("auto").label}
           caption={job("auto").caption}

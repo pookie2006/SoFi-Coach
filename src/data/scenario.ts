@@ -33,7 +33,7 @@ export const scenario = {
   breadth: [
     {
       id: "auto",
-      label: "Auto loan",
+      label: "Personal loan",
       number: "$24,000",
       caption: "SoFi originated it",
     },

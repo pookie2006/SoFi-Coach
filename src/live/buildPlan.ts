@@ -7,8 +7,34 @@ import {
   type RiskLevel,
 } from "../data/liveAccount";
 import type { CatalogItem } from "../data/liveCatalog";
+import {
+  PAY_IN_4_MAX,
+  PERSONAL_LOAN_MAX,
+  PERSONAL_LOAN_MIN,
+  canPayCash,
+  canUseCard,
+  canUseCashOut,
+  canUseHeloc,
+  canUseHomeEquity,
+  canUseMortgage,
+  canUsePayIn4,
+  canUsePersonalLoan,
+  inferPurchaseKind,
+} from "./sofiRoutes";
 
-export type StepKind = "loan" | "cash" | "etf" | "stocks" | "crypto";
+export type StepKind =
+  | "loan"
+  | "cash"
+  | "card"
+  | "payIn4"
+  | "mortgage"
+  | "heloc"
+  | "homeEquity"
+  | "cashOut"
+  | "student"
+  | "etf"
+  | "stocks"
+  | "crypto";
 
 export type PlanStep = {
   id: string;
@@ -19,42 +45,182 @@ export type PlanStep = {
   amount: number;
   monthly?: number;
   defaultOn: boolean;
+  disabled?: boolean;
 };
 
+function loanMonthsFor(price: number) {
+  if (price >= 15_000) return 60;
+  if (price >= 5_000) return 36;
+  return 24;
+}
+
 export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk) {
+  const price = item.price;
+  const kind = inferPurchaseKind(item);
   const cash = liveAccount.cash;
-  const canPayCash = cash >= item.price;
-  const loanMonths = item.price >= 1_000 ? 24 : 12;
-  const loanMonthly = monthlyPayment(
-    item.price,
-    liveAccount.personalLoanApr,
-    loanMonths,
-  );
-  const leftover = canPayCash ? cash - item.price : 0;
+  const cashOk = canPayCash(price);
+  const leftover = cashOk ? cash - price : 0;
   const investToward = Math.min(400, Math.max(150, Math.round(cash * 0.12)));
 
-  const buyLoan: PlanStep = {
-    id: "loan",
-    kind: "loan",
-    exclusiveGroup: "buy",
-    title: `Personal loan for the ${item.name}`,
-    detail: `${money(item.price)} at ${aprPct(liveAccount.personalLoanApr)} · ${loanMonths} months · ~${moneyExact(loanMonthly)}/mo. SoFi originates it.`,
-    amount: item.price,
-    monthly: loanMonthly,
-    defaultOn: !canPayCash,
-  };
+  const buy: PlanStep[] = [];
 
-  const buyCash: PlanStep = {
+  if (kind === "home" && canUseMortgage(price)) {
+    const down = Math.round(price * 0.2);
+    const principal = price - down;
+    const monthly = monthlyPayment(principal, liveAccount.mortgageApr, 360);
+    buy.push({
+      id: "mortgage",
+      kind: "mortgage",
+      exclusiveGroup: "buy",
+      title: `SoFi mortgage for the ${item.name}`,
+      detail: `${money(principal)} at ${aprPct(liveAccount.mortgageApr)} · 30-year fixed · 20% down ${money(down)} · ~${moneyExact(monthly)}/mo. SoFi originates it.`,
+      amount: principal,
+      monthly,
+      defaultOn: false,
+    });
+  }
+
+  if (kind === "tuition") {
+    const months = 120;
+    const monthly = monthlyPayment(price, liveAccount.studentApr, months);
+    buy.push({
+      id: "student",
+      kind: "student",
+      exclusiveGroup: "buy",
+      title: `SoFi student loan for ${item.name}`,
+      detail: `${money(price)} at ${aprPct(liveAccount.studentApr)} · ${months / 12} years · ~${moneyExact(monthly)}/mo. SoFi originates it.`,
+      amount: price,
+      monthly,
+      defaultOn: false,
+    });
+  }
+
+  if (kind === "homeImprovement") {
+    if (canUseHeloc(price)) {
+      const monthly = (price * liveAccount.helocApr) / 12;
+      buy.push({
+        id: "heloc",
+        kind: "heloc",
+        exclusiveGroup: "buy",
+        title: `SoFi HELOC for the ${item.name}`,
+        detail: `${money(price)} variable line at ${aprPct(liveAccount.helocApr)} · ~${moneyExact(monthly)}/mo interest-only to start. SoFi originates it.`,
+        amount: price,
+        monthly,
+        defaultOn: false,
+      });
+    }
+    if (canUseHomeEquity(price)) {
+      const months = 120;
+      const monthly = monthlyPayment(price, liveAccount.homeEquityApr, months);
+      buy.push({
+        id: "homeEquity",
+        kind: "homeEquity",
+        exclusiveGroup: "buy",
+        title: `SoFi home equity loan for the ${item.name}`,
+        detail: `${money(price)} fixed at ${aprPct(liveAccount.homeEquityApr)} · ${months / 12} years · ~${moneyExact(monthly)}/mo. SoFi originates it.`,
+        amount: price,
+        monthly,
+        defaultOn: false,
+      });
+    }
+    if (canUseCashOut(price)) {
+      const monthly = monthlyPayment(price, liveAccount.mortgageApr, 360);
+      buy.push({
+        id: "cashOut",
+        kind: "cashOut",
+        exclusiveGroup: "buy",
+        title: `Cash-out refinance for the ${item.name}`,
+        detail: `Replace the mortgage and take ${money(price)} cash at ${aprPct(liveAccount.mortgageApr)}. SoFi originates the refinance.`,
+        amount: price,
+        monthly,
+        defaultOn: false,
+      });
+    }
+  }
+
+  const allowPersonalLoan =
+    kind !== "home" &&
+    kind !== "tuition" &&
+    (kind === "debt" || kind === "homeImprovement" || kind === "retail");
+
+  if (allowPersonalLoan && price >= PERSONAL_LOAN_MIN && price <= PERSONAL_LOAN_MAX) {
+    const months = loanMonthsFor(price);
+    const monthly = monthlyPayment(price, liveAccount.personalLoanApr, months);
+    const directPay =
+      kind === "debt"
+        ? " Direct Pay to creditors knocks 0.25% off the APR."
+        : "";
+    buy.push({
+      id: "loan",
+      kind: "loan",
+      exclusiveGroup: "buy",
+      title:
+        kind === "debt"
+          ? "SoFi personal loan · Direct Pay"
+          : `Personal loan for the ${item.name}`,
+      detail: `${money(price)} at ${aprPct(liveAccount.personalLoanApr)} · ${months} months · ~${moneyExact(monthly)}/mo. SoFi originates it.${directPay}`,
+      amount: price,
+      monthly,
+      defaultOn: false,
+      disabled: !canUsePersonalLoan(price),
+    });
+  }
+
+  if (kind !== "home" && kind !== "tuition") {
+    if (price <= PAY_IN_4_MAX) {
+      const installment = price / 4;
+      buy.push({
+        id: "payIn4",
+        kind: "payIn4",
+        exclusiveGroup: "buy",
+        title: `Pay in 4 for the ${item.name}`,
+        detail: `${money(price)} split into 4 interest-free payments of ${moneyExact(installment)} every two weeks. SoFi virtual card.`,
+        amount: price,
+        monthly: installment,
+        defaultOn: false,
+        disabled: !canUsePayIn4(price),
+      });
+    }
+
+    buy.push({
+      id: "card",
+      kind: "card",
+      exclusiveGroup: "buy",
+      title: `SoFi credit card for the ${item.name}`,
+      detail: canUseCard(price)
+        ? `${money(price)} on your SoFi card · ${money(liveAccount.creditAvailable)} available. Rewards back into SoFi.`
+        : `${money(price)} needs ${money(liveAccount.creditAvailable)} card room. The card alone does not clear it.`,
+      amount: price,
+      defaultOn: false,
+      disabled: !canUseCard(price),
+    });
+  }
+
+  buy.push({
     id: "cash",
     kind: "cash",
     exclusiveGroup: "buy",
-    title: `Pay cash from checking`,
-    detail: canPayCash
-      ? `Debit ${money(item.price)} from ${money(cash)} available. Keeps you out of a loan.`
-      : `You have ${money(cash)}. The ${item.name} is ${money(item.price)}. Cash alone does not clear it.`,
-    amount: item.price,
-    defaultOn: canPayCash,
-  };
+    title: "Pay cash from checking",
+    detail: cashOk
+      ? `Debit ${money(price)} from ${money(cash)} available. Keeps you out of a loan.`
+      : `You have ${money(cash)}. The ${item.name} is ${money(price)}. Cash alone does not clear it.`,
+    amount: price,
+    defaultOn: false,
+    disabled: !cashOk,
+  });
+
+  const preferred =
+    buy.find((step) => step.id === "mortgage" && !step.disabled) ??
+    buy.find((step) => step.id === "student" && !step.disabled) ??
+    buy.find((step) => step.id === "loan" && kind === "debt" && !step.disabled) ??
+    buy.find((step) => step.id === "heloc" && !step.disabled) ??
+    buy.find((step) => step.id === "homeEquity" && !step.disabled) ??
+    buy.find((step) => step.id === "cash" && !step.disabled) ??
+    buy.find((step) => step.id === "payIn4" && !step.disabled) ??
+    buy.find((step) => step.id === "card" && !step.disabled) ??
+    buy.find((step) => step.id === "loan" && !step.disabled);
+
+  if (preferred) preferred.defaultOn = true;
 
   const etfAmount = leftover > 0 ? leftover : investToward;
   const etfMix =
@@ -93,7 +259,36 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
     defaultOn: false,
   };
 
-  return [buyLoan, buyCash, etf, stocks, crypto];
+  return [...buy, etf, stocks, crypto];
+}
+
+export function executionLine(step: PlanStep) {
+  switch (step.kind) {
+    case "loan":
+      return `Originating a ${money(step.amount)} personal loan at ${aprPct(liveAccount.personalLoanApr)}.`;
+    case "cash":
+      return `Debiting ${money(step.amount)} from checking.`;
+    case "card":
+      return `Charging ${money(step.amount)} to your SoFi credit card.`;
+    case "payIn4":
+      return `Opening Pay in 4 — four interest-free payments of ${moneyExact(step.amount / 4)}.`;
+    case "mortgage":
+      return `Originating a ${money(step.amount)} SoFi mortgage at ${aprPct(liveAccount.mortgageApr)}.`;
+    case "heloc":
+      return `Opening a ${money(step.amount)} SoFi HELOC at ${aprPct(liveAccount.helocApr)}.`;
+    case "homeEquity":
+      return `Originating a ${money(step.amount)} SoFi home equity loan at ${aprPct(liveAccount.homeEquityApr)}.`;
+    case "cashOut":
+      return `Originating a cash-out refinance for ${money(step.amount)}.`;
+    case "student":
+      return `Originating a ${money(step.amount)} SoFi student loan at ${aprPct(liveAccount.studentApr)}.`;
+    case "etf":
+      return `Allocating ${money(step.amount)} across ETFs.`;
+    case "stocks":
+      return `Buying ${money(step.amount)} in stocks.`;
+    case "crypto":
+      return `Booking ${money(step.amount)} in the optional crypto sleeve.`;
+  }
 }
 
 export function applyExclusiveToggle(

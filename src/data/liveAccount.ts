@@ -14,6 +14,12 @@ export const liveAccount = {
   creditAvailable: 5_500,
   personalLoanLimit: 20_000,
   personalLoanApr: 0.1149,
+  mortgageApr: 0.06,
+  helocApr: 0.074,
+  homeEquityApr: 0.0699,
+  studentApr: 0.0549,
+  ownsHome: false,
+  payIn4Eligible: true,
   risk: "moderate" as RiskLevel,
 };
 
