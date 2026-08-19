@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react";
-import { isLoopbackHost } from "./urls";
+import { judgeTunnelOrigin } from "../data/judgeOrigin";
 
 export type PhoneLinkVia = "tunnel" | "lan" | "pages" | "none";
 
-function publicPage() {
-  if (typeof window === "undefined") return { origin: "", via: "none" as const };
-  if (window.location.protocol === "https:" && !isLoopbackHost()) {
-    return { origin: window.location.origin, via: "pages" as const };
-  }
-  return { origin: "", via: "none" as const };
-}
-
-/** Prefer a live tunnel; on GitHub Pages use this public https origin. */
+/** Laptop tunnel if demo is up; otherwise the baked judge tunnel for GitHub Pages. */
 export function usePhoneOrigin() {
-  const fallback = publicPage();
-  const [origin, setOrigin] = useState(fallback.origin);
-  const [via, setVia] = useState<PhoneLinkVia>(fallback.via);
-  const [ready, setReady] = useState(Boolean(fallback.origin));
+  const [origin, setOrigin] = useState(judgeTunnelOrigin);
+  const [via, setVia] = useState<PhoneLinkVia>("tunnel");
+  const [ready, setReady] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -32,23 +23,12 @@ export function usePhoneOrigin() {
           if (data.via === "tunnel" && data.origin) {
             setOrigin(data.origin);
             setVia("tunnel");
-            return;
-          }
-          const page = publicPage();
-          if (page.origin) {
-            setOrigin(page.origin);
-            setVia("pages");
-          } else if (data.origin) {
-            setOrigin(data.origin);
-            setVia(data.via ?? "lan");
           }
         })
         .catch(() => {
-          const page = publicPage();
-          if (page.origin) {
-            setOrigin(page.origin);
-            setVia("pages");
-          }
+          if (cancelled) return;
+          setOrigin(judgeTunnelOrigin);
+          setVia("tunnel");
         })
         .finally(() => {
           if (!cancelled) setReady(true);

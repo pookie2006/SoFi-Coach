@@ -5,7 +5,7 @@ import { usePhoneOrigin } from "../../live/usePhoneOrigin";
 import styles from "../live/live.module.css";
 
 export function JudgeScan({ embedded = false }: { embedded?: boolean }) {
-  const { origin, via, ready } = usePhoneOrigin();
+  const { origin, ready } = usePhoneOrigin();
   const start = origin ? scanHref("", origin) : "";
   const phoneReady = Boolean(start) && isPhoneHref(start);
 
@@ -26,9 +26,7 @@ export function JudgeScan({ embedded = false }: { embedded?: boolean }) {
           <p className={styles.url}>{start}</p>
           <p className={styles.posterHint}>Phone Camera · no Expo Go</p>
           <p className={styles.posterHint}>
-            {via === "tunnel"
-              ? "Any Wi-Fi. Keep the laptop tunnel open."
-              : "Opens this GitHub Pages scan on any phone."}
+            Any Wi-Fi. Keep npm run demo running on the laptop.
           </p>
         </>
       ) : (
