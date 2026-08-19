@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlanVsDo } from "../components/Diagrams";
 import { DeviceFrame } from "../components/DeviceFrame";
 import { StatusBar } from "../components/StatusBar";
 import { format, scenario } from "../data/scenario";
 import { cssVariables } from "../theme/tokens";
-import { useStaticMode } from "../useStaticMode";
+import { PlaybackLock, useStaticMode } from "../useStaticMode";
 import { ActionScreen } from "./ActionScreen";
 import { BreadthScreen } from "./BreadthScreen";
 import styles from "./DemoScreen.module.css";
 import { DoneScreen } from "./DoneScreen";
+import { EndScreen } from "./EndScreen";
 import { ExecuteScreen } from "./ExecuteScreen";
 import { JobVignette } from "./JobVignette";
 import { ProcessingScreen } from "./ProcessingScreen";
@@ -63,25 +64,6 @@ function IdeaCard() {
         Then it originates the mortgage, funds the auto loan, invests to an
         industry and risk, refinances, or rolls the 401(k).
       </p>
-    </div>
-  );
-}
-
-function EndCard() {
-  return (
-    <div className={styles.card}>
-      <StatusBar variant="light" />
-      <div style={{ flex: 1 }} />
-      <p className={styles.cardKicker}>
-        <span className={styles.sofiMark}>SoFi</span> It
-      </p>
-      <div className={styles.cardRule} />
-      <h1 className={styles.cardTitle}>
-        Scan It
-        <br />
-        &amp; SoFi It
-      </h1>
-      <p className={styles.cardLead}>Not a plan. The job.</p>
     </div>
   );
 }
@@ -206,7 +188,7 @@ function buildSteps(): Step[] {
       id: "end",
       holdMs: 7000,
       caption: "Scan It & SoFi It",
-      render: () => <EndCard />,
+      render: () => <EndScreen />,
     },
   ];
 }
@@ -226,17 +208,42 @@ export function DemoScreen() {
     return () => window.clearTimeout(id);
   }, [outgoing]);
 
+  const goNext = useCallback(() => {
+    if (isStatic) return;
+    if (index >= steps.length - 1) {
+      setPlaying(false);
+      return;
+    }
+    setOutgoing(index);
+    setIndex(index + 1);
+  }, [index, isStatic, steps.length]);
+
   useEffect(() => {
     if (!playing) return;
+    const last = index >= steps.length - 1;
     const id = window.setTimeout(() => {
-      setOutgoing(index);
-      setIndex((current) => (current + 1) % steps.length);
+      if (last) {
+        setPlaying(false);
+        return;
+      }
+      goNext();
     }, step.holdMs);
     return () => window.clearTimeout(id);
-  }, [index, playing, step.holdMs, steps.length]);
+  }, [goNext, index, playing, step.holdMs]);
 
   return (
-    <div className={styles.stage} style={cssVariables}>
+    <div
+      className={`${styles.stage} ${isStatic ? "" : styles.skippable}`}
+      style={cssVariables}
+      onClick={
+        isStatic
+          ? undefined
+          : (event) => {
+              if ((event.target as HTMLElement).closest("button")) return;
+              goNext();
+            }
+      }
+    >
       {isStatic ? null : (
         <>
           <p className={styles.wordmark}>
@@ -248,18 +255,20 @@ export function DemoScreen() {
 
       <div className={styles.phoneWrap}>
         <DeviceFrame caption={null} variant="item">
-          <div className={`${styles.viewport} ${styles.frozen}`}>
-            {outgoing !== null ? (
-              <div className={`${styles.layer} ${styles.outgoing}`}>
-                {steps[outgoing].render()}
+          <PlaybackLock>
+            <div className={`${styles.viewport} ${styles.frozen}`}>
+              {outgoing !== null ? (
+                <div className={`${styles.layer} ${styles.outgoing}`}>
+                  {steps[outgoing].render()}
+                </div>
+              ) : null}
+              <div
+                className={`${styles.layer} ${outgoing === null ? "" : styles.incoming}`}
+              >
+                {step.render()}
               </div>
-            ) : null}
-            <div
-              className={`${styles.layer} ${outgoing === null ? "" : styles.incoming}`}
-            >
-              {step.render()}
             </div>
-          </div>
+          </PlaybackLock>
         </DeviceFrame>
       </div>
 

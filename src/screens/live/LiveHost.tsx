@@ -13,9 +13,9 @@ export function LiveHost() {
         <p className={styles.kicker}>SoFi It · Judge room</p>
         <h1 className={styles.title}>Scan the code. Then scan an object.</h1>
         <p className={styles.lead}>
-          Judges land in a mock SoFi account, point the camera at a MacBook (or
-          pick one), then approve or reject each line of the plan. SoFi runs
-          what they keep.
+          Judges land in a mock SoFi account, point the camera at an object
+          (laptop, cup, backpack, bike…), we name it and look up a price, then
+          they approve or reject each line. SoFi runs what they keep.
         </p>
         <div className={styles.qrWrap}>
           <QrCard value={start} size={240} />
@@ -26,7 +26,7 @@ export function LiveHost() {
           Camera needs HTTPS (or localhost).
         </p>
         <p className={styles.kicker} style={{ marginTop: 32 }}>
-          Backup object codes
+          Backup shortcuts
         </p>
         <div className={styles.grid}>
           {liveCatalog.map((item) => (

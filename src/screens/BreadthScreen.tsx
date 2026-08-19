@@ -1,12 +1,13 @@
 import { JobMini } from "../components/Diagrams";
-import { SofiHeader } from "../components/StatusBar";
+import { CtaButton, SofiHeader } from "../components/StatusBar";
 import { scenario } from "../data/scenario";
-import { useStaticMode } from "../useStaticMode";
+import { usePlaybackLock, useStaticMode } from "../useStaticMode";
 import cards from "./BreadthScreen.module.css";
 import sofi from "./sofi.module.css";
 
 export function BreadthScreen() {
-  const { go } = useStaticMode();
+  const { isStatic, go } = useStaticMode();
+  const locked = usePlaybackLock();
 
   return (
     <div className={sofi.screen}>
@@ -23,6 +24,10 @@ export function BreadthScreen() {
             </article>
           ))}
         </div>
+        <div className={sofi.spacer} />
+        {locked || isStatic ? null : (
+          <CtaButton onClick={() => go("/end")}>Scan It &amp; SoFi It</CtaButton>
+        )}
       </div>
     </div>
   );

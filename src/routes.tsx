@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { ActionScreen } from "./screens/ActionScreen";
 import { BreadthScreen } from "./screens/BreadthScreen";
 import { DoneScreen } from "./screens/DoneScreen";
+import { EndScreen } from "./screens/EndScreen";
 import { ExecuteScreen } from "./screens/ExecuteScreen";
 import { ProcessingScreen } from "./screens/ProcessingScreen";
 import { ShareScreen } from "./screens/ShareScreen";
@@ -17,6 +18,7 @@ export function AppRoutes() {
       <Route path="/action" element={<ActionScreen />} />
       <Route path="/done" element={<DoneScreen />} />
       <Route path="/breadth" element={<BreadthScreen />} />
+      <Route path="/end" element={<EndScreen />} />
     </Routes>
   );
 }
