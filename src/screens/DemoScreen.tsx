@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlanVsDo } from "../components/Diagrams";
 import { DeviceFrame } from "../components/DeviceFrame";
@@ -208,6 +208,16 @@ export function DemoScreen() {
     return () => window.clearTimeout(id);
   }, [outgoing]);
 
+  const goNext = useCallback(() => {
+    if (isStatic) return;
+    if (index >= steps.length - 1) {
+      setPlaying(false);
+      return;
+    }
+    setOutgoing(index);
+    setIndex(index + 1);
+  }, [index, isStatic, steps.length]);
+
   useEffect(() => {
     if (!playing) return;
     const last = index >= steps.length - 1;
@@ -216,14 +226,24 @@ export function DemoScreen() {
         setPlaying(false);
         return;
       }
-      setOutgoing(index);
-      setIndex((current) => current + 1);
+      goNext();
     }, step.holdMs);
     return () => window.clearTimeout(id);
-  }, [index, playing, step.holdMs, steps.length]);
+  }, [goNext, index, playing, step.holdMs]);
 
   return (
-    <div className={styles.stage} style={cssVariables}>
+    <div
+      className={`${styles.stage} ${isStatic ? "" : styles.skippable}`}
+      style={cssVariables}
+      onClick={
+        isStatic
+          ? undefined
+          : (event) => {
+              if ((event.target as HTMLElement).closest("button")) return;
+              goNext();
+            }
+      }
+    >
       {isStatic ? null : (
         <>
           <p className={styles.wordmark}>
