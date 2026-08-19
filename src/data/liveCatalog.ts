@@ -1,14 +1,15 @@
-export type CatalogId = "macbook" | "iphone" | "bike" | "airpods";
-
 export type CatalogItem = {
-  id: CatalogId;
+  id: string;
   name: string;
   brand: string;
   price: number;
   streetHigh: number;
-  coco: string[];
+  coco?: string[];
   blurb: string;
   source: string;
+  identifiedAs?: string;
+  asOf?: string;
+  image?: string;
 };
 
 export const liveCatalog: CatalogItem[] = [
@@ -60,5 +61,5 @@ export function itemById(id: string | null | undefined) {
 
 export function itemFromCoco(label: string) {
   const normalized = label.toLowerCase();
-  return liveCatalog.find((item) => item.coco.includes(normalized)) ?? null;
+  return liveCatalog.find((item) => item.coco?.includes(normalized)) ?? null;
 }

@@ -8,13 +8,14 @@ import {
   type RiskLevel,
 } from "../../data/liveAccount";
 import { itemById, liveCatalog, type CatalogItem } from "../../data/liveCatalog";
+import { typicalPrices } from "../../data/typicalPrices";
 import {
   applyExclusiveToggle,
   approvedSteps,
   buildPlan,
   seedApproved,
 } from "../../live/buildPlan";
-import { pullMarketPrice } from "../../live/fetchMarket";
+import { lookupPrice, priceKnownItem } from "../../live/lookupPrice";
 import { loadDetector, matchFrame } from "../../live/recognize";
 import { useCamera } from "../../live/useCamera";
 import { CtaButton, SofiHeader } from "../../components/StatusBar";
@@ -30,7 +31,9 @@ export function LiveApp() {
   const [asOf, setAsOf] = useState<string | null>(null);
   const [risk, setRisk] = useState<RiskLevel>(liveAccount.risk);
   const [approved, setApproved] = useState<Record<string, boolean>>({});
-  const [hint, setHint] = useState("Point the camera at a laptop, phone, or bike");
+  const [hint, setHint] = useState(
+    "Point the camera at almost anything — a laptop, cup, backpack, bike…",
+  );
 
   const steps = useMemo(
     () => (item ? buildPlan(item, risk) : []),
@@ -40,10 +43,13 @@ export function LiveApp() {
   useEffect(() => {
     if (item && phase === "pricing") {
       let cancelled = false;
-      void pullMarketPrice(item).then((priced) => {
+      const job = item.identifiedAs
+        ? lookupPrice(item.identifiedAs)
+        : priceKnownItem(item);
+      void job.then((priced) => {
         if (cancelled) return;
         setItem(priced);
-        setAsOf(priced.asOf);
+        setAsOf(priced.asOf ?? null);
         setApproved(seedApproved(buildPlan(priced, risk)));
         setPhase("plan");
       });
@@ -59,8 +65,23 @@ export function LiveApp() {
   }, [item, risk]);
 
   const choose = useCallback((next: CatalogItem, via: "scan" | "pick" | "qr") => {
-    setHint(via === "scan" ? `Recognized ${next.name}` : next.name);
+    setHint(via === "scan" ? `Recognized ${next.identifiedAs ?? next.name}` : next.name);
     setItem(next);
+    setPhase("pricing");
+  }, []);
+
+  const identify = useCallback((label: string) => {
+    setHint(`Identified ${label}`);
+    setItem({
+      id: label,
+      name: label,
+      brand: "Identifying",
+      price: 0,
+      streetHigh: 0,
+      blurb: "",
+      source: "Camera",
+      identifiedAs: label,
+    });
     setPhase("pricing");
   }, []);
 
@@ -84,21 +105,28 @@ export function LiveApp() {
       />
 
       {phase === "home" ? (
-        <Home onScan={() => setPhase("scan")} onPick={choose} />
+        <Home
+          onScan={() => setPhase("scan")}
+          onPick={choose}
+          onIdentify={identify}
+        />
       ) : null}
 
       {phase === "scan" ? (
-        <Scan hint={hint} onPick={choose} onHint={setHint} />
+        <Scan hint={hint} onPick={choose} onIdentify={identify} onHint={setHint} />
       ) : null}
 
       {phase === "pricing" && item ? (
         <div className={styles.body}>
-          <p className={styles.kicker}>Pulling the street price</p>
-          <h1 className={styles.title}>{item.name}</h1>
-          <p className={styles.heroNum}>{money(item.price)}</p>
+          <p className={styles.kicker}>
+            {item.identifiedAs
+              ? `Identified · ${item.identifiedAs}`
+              : "Identifying"}
+          </p>
+          <h1 className={styles.title}>Finding the price…</h1>
           <p className={styles.muted}>
-            Checking {item.source}. Then SoFi writes a plan you can approve or
-            reject, line by line.
+            Searching a live product catalog for a {item.identifiedAs ?? item.name}.
+            Then SoFi writes a plan you can approve or reject.
           </p>
         </div>
       ) : null}
@@ -106,10 +134,14 @@ export function LiveApp() {
       {phase === "plan" && item ? (
         <div className={styles.body}>
           <p className={styles.kicker}>
-            {item.brand} · {item.source}
+            {item.identifiedAs ? `Saw ${item.identifiedAs} · ` : ""}
+            {item.source}
             {asOf ? ` · ${asOf}` : ""}
           </p>
           <h1 className={styles.title}>{item.name}</h1>
+          {item.image ? (
+            <img className={styles.thumb} src={item.image} alt="" />
+          ) : null}
           <p className={styles.heroNum}>{money(item.price)}</p>
           <p className={styles.muted}>{item.blurb}</p>
           <p className={styles.muted}>
@@ -211,21 +243,58 @@ export function LiveApp() {
   );
 }
 
+const quickLabels = [
+  "laptop",
+  "cell phone",
+  "bicycle",
+  "backpack",
+  "chair",
+  "cup",
+] as const;
+
+function IdentifyField({ onIdentify }: { onIdentify: (label: string) => void }) {
+  const [query, setQuery] = useState("");
+  return (
+    <form
+      className={styles.search}
+      onSubmit={(event) => {
+        event.preventDefault();
+        const value = query.trim();
+        if (!value) return;
+        const match =
+          Object.keys(typicalPrices).find((key) => value.toLowerCase().includes(key)) ??
+          value;
+        onIdentify(match);
+      }}
+    >
+      <input
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Or type it: laptop, mug, bike…"
+        aria-label="Identify an object by name"
+      />
+      <button type="submit">Price it</button>
+    </form>
+  );
+}
+
 function Home({
   onScan,
   onPick,
+  onIdentify,
 }: {
   onScan: () => void;
   onPick: (item: CatalogItem, via: "pick") => void;
+  onIdentify: (label: string) => void;
 }) {
   return (
     <div className={styles.body}>
       <p className={styles.kicker}>{liveAccount.name}</p>
       <h1 className={styles.title}>Scan it. SoFi does it.</h1>
       <p className={styles.lead}>
-        This phone is a mock SoFi member. Limits are real enough to force a
-        choice: finance the object, pay cash, or invest — then approve or reject
-        each line.
+        Scan an object. The camera names it, we look up a street price, then
+        SoFi writes a plan — finance it, pay cash, or invest — that you approve
+        or reject line by line.
       </p>
       <div className={styles.stats}>
         <div className={styles.stat}>
@@ -249,8 +318,19 @@ function Home({
       <button type="button" className={styles.cta} onClick={onScan}>
         Scan an object
       </button>
-      <p className={styles.muted}>Or pick one if the room is dark:</p>
+      <IdentifyField onIdentify={onIdentify} />
+      <p className={styles.muted}>Or pick a class if the room is dark:</p>
       <div className={styles.picks}>
+        {quickLabels.map((label) => (
+          <button
+            key={label}
+            type="button"
+            className={styles.pick}
+            onClick={() => onIdentify(label)}
+          >
+            {typicalPrices[label].label}
+          </button>
+        ))}
         {liveCatalog.map((entry) => (
           <button
             key={entry.id}
@@ -259,9 +339,6 @@ function Home({
             onClick={() => onPick(entry, "pick")}
           >
             {entry.name}
-            <div className={styles.muted} style={{ margin: 0 }}>
-              {money(entry.price)}
-            </div>
           </button>
         ))}
       </div>
@@ -275,10 +352,12 @@ function Home({
 function Scan({
   hint,
   onPick,
+  onIdentify,
   onHint,
 }: {
   hint: string;
   onPick: (item: CatalogItem, via: "scan" | "pick") => void;
+  onIdentify: (label: string) => void;
   onHint: (text: string) => void;
 }) {
   const { videoRef, error, ready } = useCamera(true);
@@ -293,7 +372,7 @@ function Scan({
   useEffect(() => {
     if (!ready) return;
     let alive = true;
-    let lastId: string | null = null;
+    let lastLabel: string | null = null;
     let count = 0;
 
     const tick = async () => {
@@ -302,15 +381,15 @@ function Scan({
       if (video) {
         const match = await matchFrame(video);
         if (match) {
-          if (match.id === lastId) count += 1;
+          if (match.label === lastLabel) count += 1;
           else {
-            lastId = match.id;
+            lastLabel = match.label;
             count = 1;
           }
           setHits(count);
-          onHint(`Seeing ${match.name}…`);
+          onHint(`Seeing ${match.label}…`);
           if (count >= 3) {
-            onPick(match, "scan");
+            onIdentify(match.label);
             return;
           }
         }
@@ -322,7 +401,7 @@ function Scan({
     return () => {
       alive = false;
     };
-  }, [onHint, onPick, ready, videoRef]);
+  }, [onHint, onIdentify, ready, videoRef]);
 
   return (
     <div className={styles.body}>
@@ -340,6 +419,7 @@ function Scan({
           {hits > 0 ? ` (${hits}/3)` : ""}
         </p>
       </div>
+      <IdentifyField onIdentify={onIdentify} />
       <div className={styles.picks}>
         {liveCatalog.map((entry) => (
           <button

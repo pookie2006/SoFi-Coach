@@ -1,5 +1,6 @@
 import {
   createContext,
+  createElement,
   useCallback,
   useContext,
   type ReactNode,
@@ -9,10 +10,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 const PlaybackLockContext = createContext(false);
 
 export function PlaybackLock({ children }: { children: ReactNode }) {
-  return (
-    <PlaybackLockContext.Provider value={true}>
-      {children}
-    </PlaybackLockContext.Provider>
+  return createElement(
+    PlaybackLockContext.Provider,
+    { value: true },
+    children,
   );
 }
 
