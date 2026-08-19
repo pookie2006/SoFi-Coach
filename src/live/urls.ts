@@ -22,3 +22,12 @@ export function objectHref(id: string, origin = window.location.origin) {
 export function isLoopbackHost(hostname = window.location.hostname) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
 }
+
+export function isPhoneHref(url: string) {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" && !isLoopbackHost(parsed.hostname);
+  } catch {
+    return false;
+  }
+}

@@ -112,6 +112,7 @@ export function ScanApp() {
   const [pickingObject, setPickingObject] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [photoOk, setPhotoOk] = useState(true);
   const [risk, setRisk] = useState<RiskLevel>(liveAccount.risk);
   const [approved, setApproved] = useState<Record<string, boolean>>({});
 
@@ -138,17 +139,11 @@ export function ScanApp() {
     void scanStatus()
       .then((status) => {
         if (cancelled) return;
-        if (!status.vision || !status.comps) {
-          setError(
-            "Add EXPO_PUBLIC_ANTHROPIC_API_KEY and EXPO_PUBLIC_SERPAPI_KEY to scan/.env, then restart npm run dev.",
-          );
-          setPhase("blocked");
-        }
+        setPhotoOk(Boolean(status.vision && status.comps));
       })
-      .catch((err: unknown) => {
+      .catch(() => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Scan API is offline.");
-        setPhase("blocked");
+        setPhotoOk(false);
       });
     return () => {
       cancelled = true;
@@ -259,10 +254,10 @@ export function ScanApp() {
             <button
               type="button"
               className={styles.ghost}
-              disabled={busy}
+              disabled={busy || !photoOk}
               onClick={() => inputRef.current?.click()}
             >
-              Scan an object
+              {photoOk ? "Scan an object" : "Scan needs the laptop demo"}
             </button>
           </div>
           {pickingObject ? (

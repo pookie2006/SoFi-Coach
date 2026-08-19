@@ -7,7 +7,7 @@ import styles from "./live.module.css";
 
 export function LiveHost() {
   const { origin } = usePhoneOrigin();
-  const start = scanHref("", origin);
+  const start = scanHref("", origin || window.location.origin);
 
   return (
     <div className={styles.host}>
