@@ -5,6 +5,8 @@ import { DemoScreen } from "./screens/DemoScreen";
 import { GalleryScreen } from "./screens/GalleryScreen";
 import { LiveApp } from "./screens/live/LiveApp";
 import { LiveHost } from "./screens/live/LiveHost";
+import { ScanApp } from "./screens/scan/ScanApp";
+import { ScanHost } from "./screens/scan/ScanHost";
 import { useStaticMode } from "./useStaticMode";
 
 export default function App() {
@@ -13,6 +15,14 @@ export default function App() {
 
   if (location.pathname === "/gallery") {
     return <GalleryScreen />;
+  }
+
+  if (location.pathname === "/scan/host") {
+    return <ScanHost />;
+  }
+
+  if (location.pathname === "/scan") {
+    return <ScanApp />;
   }
 
   if (location.pathname === "/live/host") {
@@ -28,7 +38,7 @@ export default function App() {
   }
 
   return (
-    <DeviceFrame caption={isStatic ? null : "SoFi It · Maya"}>
+    <DeviceFrame caption={isStatic ? null : "SoFi It · Luke"}>
       <AppRoutes />
     </DeviceFrame>
   );

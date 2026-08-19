@@ -9,7 +9,9 @@ export type RiskLevel = keyof typeof riskLabels;
 export const liveAccount = {
   name: "Judge member",
   memberSince: "2023",
+  school: "UC Davis",
   cash: 1_640,
+  cashBuffer: 400,
   brokerage: 12_840,
   creditAvailable: 5_500,
   personalLoanLimit: 20_000,
@@ -18,6 +20,7 @@ export const liveAccount = {
   helocApr: 0.074,
   homeEquityApr: 0.0699,
   studentApr: 0.0549,
+  existingStudentBalance: 17_150,
   ownsHome: false,
   payIn4Eligible: true,
   risk: "moderate" as RiskLevel,

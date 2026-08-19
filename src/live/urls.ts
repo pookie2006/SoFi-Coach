@@ -1,12 +1,24 @@
-export function liveHref(suffix = "") {
+function siteBase(origin = window.location.origin) {
   const base = import.meta.env.BASE_URL.endsWith("/")
     ? import.meta.env.BASE_URL
     : `${import.meta.env.BASE_URL}/`;
-  return new URL(`live${suffix}`, `${window.location.origin}${base}`).href;
+  return `${origin}${base}`;
 }
 
-export function objectHref(id: string) {
-  const url = new URL(liveHref());
+export function liveHref(suffix = "", origin = window.location.origin) {
+  return new URL(`live${suffix}`, siteBase(origin)).href;
+}
+
+export function scanHref(suffix = "", origin = window.location.origin) {
+  return new URL(`scan${suffix}`, siteBase(origin)).href;
+}
+
+export function objectHref(id: string, origin = window.location.origin) {
+  const url = new URL(liveHref("", origin));
   url.searchParams.set("object", id);
   return url.href;
+}
+
+export function isLoopbackHost(hostname = window.location.hostname) {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
 }

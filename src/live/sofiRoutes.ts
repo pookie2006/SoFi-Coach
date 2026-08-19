@@ -23,7 +23,12 @@ export function inferPurchaseKind(item: CatalogItem): PurchaseKind {
     .toLowerCase();
 
   if (
-    /\b(tuition|university|college|semester|student loan|parent plus|law school|mba tuition)\b/.test(
+    /\b(statement|student loan statement|refinance my student)\b/.test(hay)
+  ) {
+    return "studentRefi";
+  }
+  if (
+    /\b(tuition|university|college|semester|study abroad|barcelona|parent plus|law school|mba tuition)\b/.test(
       hay,
     )
   ) {

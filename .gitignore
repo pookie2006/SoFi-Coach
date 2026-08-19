@@ -33,5 +33,6 @@ venv/
 
 # Misc
 *.local
+.sofi-public-origin
 .turbo/
 .next/

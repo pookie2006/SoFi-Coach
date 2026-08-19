@@ -1,6 +1,6 @@
 export const scenario = {
   person: {
-    firstName: "Maya",
+    firstName: "Luke",
     age: 29,
     cityLine: "Group chat · SoMa listing",
   },

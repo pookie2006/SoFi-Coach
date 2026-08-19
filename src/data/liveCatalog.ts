@@ -1,8 +1,12 @@
+import { barcelona, studentStatement } from "./ambition";
+import { scenario } from "./scenario";
+
 export type PurchaseKind =
   | "retail"
   | "home"
   | "homeImprovement"
   | "tuition"
+  | "studentRefi"
   | "debt";
 
 export type CatalogItem = {
@@ -21,7 +25,7 @@ export type CatalogItem = {
   purchaseKind?: PurchaseKind;
 };
 
-export const liveCatalog: CatalogItem[] = [
+export const objectCatalog: CatalogItem[] = [
   {
     id: "macbook",
     name: "MacBook Pro 14\"",
@@ -64,11 +68,54 @@ export const liveCatalog: CatalogItem[] = [
   },
 ];
 
+export const jobCatalog: CatalogItem[] = [
+  {
+    id: "loft",
+    name: `${scenario.listing.address} loft`,
+    brand: scenario.listing.building,
+    price: scenario.listing.price,
+    streetHigh: scenario.listing.price,
+    blurb: `${scenario.listing.building} · ${scenario.listing.neighborhood}. Demo listing only — HQ is not for sale.`,
+    source: "Luke · Zillow share",
+    purchaseKind: "home",
+  },
+  {
+    id: "barcelona",
+    name: barcelona.program,
+    brand: barcelona.school,
+    price: barcelona.sticker,
+    streetHigh: barcelona.sticker,
+    blurb: `${barcelona.school} aid is already in. SoFi covers the gap and the deposit.`,
+    source: "Study abroad packet",
+    purchaseKind: "tuition",
+  },
+  {
+    id: "statement",
+    name: "Student loan statement",
+    brand: "Servicer statement",
+    price: studentStatement.balance,
+    streetHigh: studentStatement.balance,
+    blurb: "SoFi refinances the remaining balance. Same student-loan job as the reel.",
+    source: "Student loan statement",
+    purchaseKind: "studentRefi",
+  },
+];
+
+export const liveCatalog: CatalogItem[] = [...objectCatalog, ...jobCatalog];
+
 export function itemById(id: string | null | undefined) {
   return liveCatalog.find((item) => item.id === id) ?? null;
 }
 
+export function isShowroomJob(item: CatalogItem) {
+  return (
+    item.purchaseKind === "home" ||
+    item.purchaseKind === "tuition" ||
+    item.purchaseKind === "studentRefi"
+  );
+}
+
 export function itemFromCoco(label: string) {
   const normalized = label.toLowerCase();
-  return liveCatalog.find((item) => item.coco?.includes(normalized)) ?? null;
+  return objectCatalog.find((item) => item.coco?.includes(normalized)) ?? null;
 }

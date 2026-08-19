@@ -1,4 +1,11 @@
 import {
+  barcelona,
+  barcelonaLoanMonthly,
+  depositFromChecking,
+  statementSoFiMonthly,
+  studentStatement,
+} from "../data/ambition";
+import {
   aprPct,
   liveAccount,
   money,
@@ -7,6 +14,7 @@ import {
   type RiskLevel,
 } from "../data/liveAccount";
 import type { CatalogItem } from "../data/liveCatalog";
+import { scenario } from "../data/scenario";
 import {
   PAY_IN_4_MAX,
   PERSONAL_LOAN_MAX,
@@ -32,6 +40,7 @@ export type StepKind =
   | "homeEquity"
   | "cashOut"
   | "student"
+  | "studentRefi"
   | "etf"
   | "stocks"
   | "crypto";
@@ -54,6 +63,63 @@ function loanMonthsFor(price: number) {
   return 24;
 }
 
+function skipInvest(
+  kind: ReturnType<typeof inferPurchaseKind>,
+) {
+  return kind === "home" || kind === "tuition" || kind === "studentRefi";
+}
+
+function loftMortgage(): PlanStep {
+  return {
+    id: "mortgage",
+    kind: "mortgage",
+    exclusiveGroup: "buy",
+    title: `SoFi mortgage for ${scenario.listing.address}`,
+    detail: `${money(scenario.mortgage.loanAmount)} at ${aprPct(scenario.mortgage.sofiApr)} · 30-year fixed · 20% down ${money(scenario.mortgage.downPayment)} · ~${money(scenario.mortgage.sofiMonthly)}/mo. SoFi originates it.`,
+    amount: scenario.mortgage.loanAmount,
+    monthly: scenario.mortgage.sofiMonthly,
+    defaultOn: true,
+  };
+}
+
+function tuitionGapPlan(): PlanStep[] {
+  const deposit = depositFromChecking();
+  const gapMonthly = barcelonaLoanMonthly();
+  return [
+    {
+      id: "deposit",
+      kind: "cash",
+      title: "Pay the deposit from checking",
+      detail: `Debit ${money(deposit)} toward the ${money(barcelona.deposit)} deposit. Keeps ${money(liveAccount.cashBuffer)} in checking.`,
+      amount: deposit,
+      defaultOn: true,
+    },
+    {
+      id: "student",
+      kind: "student",
+      title: "SoFi in-school loan for the gap",
+      detail: `${money(barcelona.gap)} at ${aprPct(liveAccount.studentApr)} · ${barcelona.loanMonths / 12} years · ~${moneyExact(gapMonthly)}/mo. SoFi originates it.`,
+      amount: barcelona.gap,
+      monthly: gapMonthly,
+      defaultOn: true,
+    },
+    studentRefiStep(false),
+  ];
+}
+
+function studentRefiStep(defaultOn: boolean): PlanStep {
+  const monthly = statementSoFiMonthly();
+  return {
+    id: "studentRefi",
+    kind: "studentRefi",
+    title: `Refinance existing student loans`,
+    detail: `${money(studentStatement.balance)} at ${aprPct(liveAccount.studentApr)} · ${studentStatement.months / 12} years · ~${moneyExact(monthly)}/mo. SoFi refinances it.`,
+    amount: studentStatement.balance,
+    monthly,
+    defaultOn,
+  };
+}
+
 export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk) {
   const price = item.price;
   const kind = inferPurchaseKind(item);
@@ -62,37 +128,29 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
   const leftover = cashOk ? cash - price : 0;
   const investToward = Math.min(400, Math.max(150, Math.round(cash * 0.12)));
 
-  const buy: PlanStep[] = [];
-
-  if (kind === "home" && canUseMortgage(price)) {
-    const down = Math.round(price * 0.2);
-    const principal = price - down;
-    const monthly = monthlyPayment(principal, liveAccount.mortgageApr, 360);
-    buy.push({
-      id: "mortgage",
-      kind: "mortgage",
-      exclusiveGroup: "buy",
-      title: `SoFi mortgage for the ${item.name}`,
-      detail: `${money(principal)} at ${aprPct(liveAccount.mortgageApr)} · 30-year fixed · 20% down ${money(down)} · ~${moneyExact(monthly)}/mo. SoFi originates it.`,
-      amount: principal,
-      monthly,
-      defaultOn: false,
-    });
+  if (kind === "studentRefi") {
+    return [studentRefiStep(true)];
   }
 
   if (kind === "tuition") {
-    const months = 120;
-    const monthly = monthlyPayment(price, liveAccount.studentApr, months);
+    return tuitionGapPlan();
+  }
+
+  const buy: PlanStep[] = [];
+
+  if (kind === "home" && canUseMortgage(price)) {
+    buy.push(loftMortgage());
     buy.push({
-      id: "student",
-      kind: "student",
+      id: "cash",
+      kind: "cash",
       exclusiveGroup: "buy",
-      title: `SoFi student loan for ${item.name}`,
-      detail: `${money(price)} at ${aprPct(liveAccount.studentApr)} · ${months / 12} years · ~${moneyExact(monthly)}/mo. SoFi originates it.`,
+      title: "Pay cash from checking",
+      detail: `You have ${money(cash)}. The listing is ${money(price)}. Cash alone does not clear it.`,
       amount: price,
-      monthly,
       defaultOn: false,
+      disabled: true,
     });
+    return buy;
   }
 
   if (kind === "homeImprovement") {
@@ -139,9 +197,7 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
   }
 
   const allowPersonalLoan =
-    kind !== "home" &&
-    kind !== "tuition" &&
-    (kind === "debt" || kind === "homeImprovement" || kind === "retail");
+    kind === "debt" || kind === "homeImprovement" || kind === "retail";
 
   if (allowPersonalLoan && price >= PERSONAL_LOAN_MIN && price <= PERSONAL_LOAN_MAX) {
     const months = loanMonthsFor(price);
@@ -166,7 +222,7 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
     });
   }
 
-  if (kind !== "home" && kind !== "tuition") {
+  if (kind !== "home") {
     if (price <= PAY_IN_4_MAX) {
       const installment = price / 4;
       buy.push({
@@ -222,6 +278,8 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
 
   if (preferred) preferred.defaultOn = true;
 
+  if (skipInvest(kind)) return buy;
+
   const etfAmount = leftover > 0 ? leftover : investToward;
   const etfMix =
     risk === "conservative"
@@ -273,7 +331,7 @@ export function executionLine(step: PlanStep) {
     case "payIn4":
       return `Opening Pay in 4 — four interest-free payments of ${moneyExact(step.amount / 4)}.`;
     case "mortgage":
-      return `Originating a ${money(step.amount)} SoFi mortgage at ${aprPct(liveAccount.mortgageApr)}.`;
+      return `Originating a ${money(step.amount)} SoFi mortgage at ${aprPct(scenario.mortgage.sofiApr)}.`;
     case "heloc":
       return `Opening a ${money(step.amount)} SoFi HELOC at ${aprPct(liveAccount.helocApr)}.`;
     case "homeEquity":
@@ -282,6 +340,8 @@ export function executionLine(step: PlanStep) {
       return `Originating a cash-out refinance for ${money(step.amount)}.`;
     case "student":
       return `Originating a ${money(step.amount)} SoFi student loan at ${aprPct(liveAccount.studentApr)}.`;
+    case "studentRefi":
+      return `Refinancing the ${money(step.amount)} student loan at ${aprPct(liveAccount.studentApr)}.`;
     case "etf":
       return `Allocating ${money(step.amount)} across ETFs.`;
     case "stocks":
@@ -289,6 +349,32 @@ export function executionLine(step: PlanStep) {
     case "crypto":
       return `Booking ${money(step.amount)} in the optional crypto sleeve.`;
   }
+}
+
+export function doneCopy(item: CatalogItem) {
+  const kind = inferPurchaseKind(item);
+  if (kind === "home") {
+    return {
+      kicker: "Posted",
+      title: `SoFi originated the ${money(scenario.mortgage.loanAmount)} mortgage.`,
+    };
+  }
+  if (kind === "tuition") {
+    return {
+      kicker: "Posted",
+      title: "SoFi originated the Barcelona gap.",
+    };
+  }
+  if (kind === "studentRefi") {
+    return {
+      kicker: "Posted",
+      title: "SoFi refinanced the student loan.",
+    };
+  }
+  return {
+    kicker: "Posted",
+    title: "SoFi did the job.",
+  };
 }
 
 export function applyExclusiveToggle(
