@@ -8,11 +8,11 @@ Someone screenshots a thing they want and asks “is this even possible?” Expl
 
 **Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
-**Scan:** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
+**Scan (laptop can stay closed):** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
 
 ![QR code that opens SoFi It scan](public/sofi-scan-qr.png)
 
-Scan the code with your phone camera to open SoFi It.
+Point a phone camera at this code. It opens [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan). Claude names the object; SerpAPI fills comparable listings. Nothing needs to be running on this laptop.
 
 ---
 
