@@ -340,17 +340,8 @@ export function DemoScreen() {
             </button>
             <button
               type="button"
-              className={`${styles.btn} ${tab === "judge" ? styles.btnPrimary : ""}`}
-              onClick={() => {
-                setTab((current) => {
-                  if (current === "judge") {
-                    setPlaying(true);
-                    return "reel";
-                  }
-                  setPlaying(false);
-                  return "judge";
-                });
-              }}
+              className={`${styles.btn} ${styles.btnPrimary}`}
+              onClick={() => navigate("/scan")}
             >
               Scan
             </button>
