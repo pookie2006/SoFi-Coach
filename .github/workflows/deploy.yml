@@ -22,6 +22,8 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /SoFi-Coach/
+          # Hosted Claude + SerpAPI (Google Shopping, then eBay). Laptop can stay closed.
+          VITE_SCAN_API: ${{ vars.VITE_SCAN_API || secrets.VITE_SCAN_API }}
       - run: |
           cp dist/index.html dist/404.html
           mkdir -p dist/scan dist/scan/host dist/live dist/live/host

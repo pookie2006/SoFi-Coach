@@ -18,6 +18,9 @@ export default function App() {
   const { isStatic } = useStaticMode();
   const path = routePath(location.pathname);
 
+  const hostedRootIsScan =
+    import.meta.env.PROD && !import.meta.env.BASE_URL.includes("SoFi-Coach");
+
   if (path === "/gallery") {
     return <GalleryScreen />;
   }
@@ -26,7 +29,7 @@ export default function App() {
     return <ScanHost />;
   }
 
-  if (path === "/scan") {
+  if (path === "/scan" || (hostedRootIsScan && path === "/")) {
     return <ScanApp />;
   }
 

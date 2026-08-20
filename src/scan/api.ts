@@ -1,5 +1,15 @@
 import type { Comp, VisionHit } from "./types";
 
+/** Claude + SerpAPI (Google Shopping, then eBay). Empty in `npm run demo` so Vite uses scan/.env. */
+const HOSTED_SCAN_API = "https://temporary-speedy-violet-mc84bbs.vercel.app";
+
+const fromEnv = (import.meta.env.VITE_SCAN_API as string | undefined)?.replace(/\/$/, "") ?? "";
+const apiBase = fromEnv || (import.meta.env.PROD ? HOSTED_SCAN_API : "");
+
+function apiUrl(path: string) {
+  return `${apiBase}${path}`;
+}
+
 async function readError(response: Response, fallback: string) {
   try {
     const payload = (await response.json()) as { error?: string };
@@ -11,7 +21,7 @@ async function readError(response: Response, fallback: string) {
 }
 
 export async function scanStatus() {
-  const response = await fetch("/api/scan-status");
+  const response = await fetch(apiUrl("/api/scan-status"));
   if (!response.ok) {
     throw new Error(
       "Scan is using this phone. SoFi can still name the object and write a plan.",
@@ -21,7 +31,7 @@ export async function scanStatus() {
 }
 
 export async function identifyPhoto(image: string): Promise<VisionHit> {
-  const response = await fetch("/api/identify", {
+  const response = await fetch(apiUrl("/api/identify"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ image }),
@@ -33,7 +43,7 @@ export async function identifyPhoto(image: string): Promise<VisionHit> {
 }
 
 export async function searchComps(vision: VisionHit): Promise<Comp[]> {
-  const response = await fetch("/api/comps", {
+  const response = await fetch(apiUrl("/api/comps"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: vision.name, brand: vision.brand }),

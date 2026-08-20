@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "demo": "node scripts/demo.mjs",
+    "scan-api": "node server/index.mjs",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

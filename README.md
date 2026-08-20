@@ -8,11 +8,11 @@ Someone screenshots a thing they want and asks “is this even possible?” Expl
 
 **Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
-**Scan:** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
+**Scan (laptop can stay closed):** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
 
 ![QR code that opens SoFi It scan](public/sofi-scan-qr.png)
 
-Scan the code with your phone camera to open SoFi It.
+Point a phone camera at this code. It opens [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan). Claude names the object; SerpAPI fills comparable listings. Nothing needs to be running on this laptop.
 
 ---
 
@@ -63,19 +63,17 @@ On the phone they can:
 
 Document and home listing scan (leases, statements, Zillow cards) is the future. Until then, the SoMa loft, Barcelona semester, and student-loan jobs are tappable story examples, not camera scans.
 
-On-device scan does not need this laptop. The richer vision + shopping-comps path needs keys in `scan/.env` and a running laptop:
+**Laptop closed:** the live `/scan` page calls a hosted scan API. Vision names the object, then SerpAPI fills **Comparable listings** from Google Shopping, or eBay if Shopping is empty. Keys stay on the server.
+
+Local richer path (keys in `scan/.env`):
 
 ```bash
-cp scan/.env.example scan/.env   # add a vision key and SerpAPI
+cp scan/.env.example scan/.env   # vision key + SerpAPI
 npm run demo                     # Vite + public HTTPS tunnel
+# or: npm run scan-api           # same API on :8787, no Vite
 ```
 
-Keep that terminal open. Then either:
-
-- open **http://localhost:5180/scan** on the laptop, or
-- open **http://localhost:5180/scan/host** and scan that QR (tunnel URL, laptop must stay awake).
-
-`npm run demo` mints a new `*.trycloudflare.com` each time. GitHub Pages `/scan` is the stable link.
+`npm run demo` mints a new `*.trycloudflare.com` each time and needs the laptop awake. GitHub Pages `/scan` is the stable link.
 
 ---
 

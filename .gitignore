@@ -36,3 +36,4 @@ venv/
 .sofi-public-origin
 .turbo/
 .next/
+.vercel
