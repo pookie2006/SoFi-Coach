@@ -1,0 +1,13 @@
+node_modules
+scan/node_modules
+scan
+src
+public
+dist
+docs
+.github
+.cursor
+*.md
+.env
+.env.*
+.DS_Store
