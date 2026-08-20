@@ -4,7 +4,7 @@ SoFi does the thing. It does not stop at a plan.
 
 Someone screenshots a thing they want and asks “is this even possible?” Explainers answer. **SoFi It** reads the job against the member’s SoFi accounts, writes a short plan, waits for them to approve or reject each line, then originates, refinances, or allocates.
 
-**Scanning today is objects only** — point the camera at a laptop, bike, phone, and so on. Scanning documents and home listings (leases, statements, Zillow cards) comes later.
+**Scan an object** — a laptop, a bike, a phone. Document and home listing scan (leases, statements, Zillow cards) is next.
 
 **Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
@@ -18,7 +18,7 @@ Scan the code with your phone camera to open SoFi It.
 
 ## How the product works
 
-1. **See** — Scan an object. Document and home-listing scan ships later.
+1. **See** — Scan an object. Documents and home listings are next.
 2. **Read** — SoFi names the job and shows the reading. The member confirms the price or rate.
 3. **Recommend** — Eligible SoFi products only (checking, card, Pay in 4, personal loan, mortgage, student loan, invest), using the demo member’s balances.
 4. **Choose** — Approve or reject each line. Buy options are exclusive — no double-funding.
