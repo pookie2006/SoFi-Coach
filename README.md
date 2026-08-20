@@ -6,11 +6,11 @@ Someone screenshots a listing, a statement, or an object and asks “is this eve
 
 **Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
-**Scan (phone camera, no Expo Go):** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
+**Scan:** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
 
 ![QR code that opens SoFi It scan](public/sofi-scan-qr.png)
 
-Point Phone Camera at the code. It opens `/scan` on GitHub Pages — the laptop does not need to stay on.
+Scan the code with your phone camera to open SoFi It.
 
 ---
 
@@ -20,9 +20,9 @@ Point Phone Camera at the code. It opens `/scan` on GitHub Pages — the laptop 
 2. **Read** — SoFi names the job and shows the reading. The member confirms the price or rate.
 3. **Recommend** — Eligible SoFi products only (checking, card, Pay in 4, personal loan, mortgage, student loan, invest), using the demo member’s balances.
 4. **Choose** — Approve or reject each line. Buy options are exclusive — no double-funding.
-5. **Do** — SoFi posts a receipt. Prototype only — not live underwriting.
+5. **Do** — SoFi posts a receipt.
 
-The reel at `/` is the story. `/scan` is the room people can try.
+`/` is the story. `/scan` is where you try it.
 
 Locked spec and numbers: [SOFI-IT-FINAL.md](SOFI-IT-FINAL.md) and [SOFI-IT.md](SOFI-IT.md).
 
