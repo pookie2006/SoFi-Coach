@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-labelledby="title desc">
+  <title id="title">Three gates before SoFi acts</title>
+  <desc id="desc">Gate 1 confirms the reading from a photo or document. Gate 2 uses member data already at SoFi for eligibility only. Both feed Gate 3: recommended plan, approved lines only, then SoFi It.</desc>
+
+  <rect width="1600" height="900" fill="#201747"/>
+
+  <text x="64" y="56" fill="#00A2C7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="15" font-weight="600" letter-spacing="0.14em">SOFI IT</text>
+  <text x="64" y="104" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif" font-size="36" font-weight="600">Three gates before SoFi acts</text>
+  <text x="64" y="140" fill="#E5E1E6" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="18">Nothing posts until the member confirms the reading and approves the lines.</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 Z" fill="#00A2C7"/>
+    </marker>
+  </defs>
+
+  <rect x="48" y="184" width="700" height="248" rx="16" fill="#1F1646" stroke="#00A2C7" stroke-width="2"/>
+  <text x="72" y="220" fill="#00A2C7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="13" font-weight="700" letter-spacing="0.16em">GATE 1</text>
+  <text x="160" y="220" fill="#E5E1E6" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="16">Confirm the reading</text>
+
+  <rect x="72" y="252" width="176" height="132" rx="10" fill="#FFFFFF"/>
+  <text x="160" y="308" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">Photo or</text>
+  <text x="160" y="332" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">document</text>
+
+  <line x1="248" y1="318" x2="284" y2="318" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="292" y="252" width="176" height="132" rx="10" fill="#FFFFFF"/>
+  <text x="380" y="308" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">Name the</text>
+  <text x="380" y="332" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">job</text>
+
+  <line x1="468" y1="318" x2="504" y2="318" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="512" y="252" width="204" height="132" rx="10" fill="#FFFFFF" stroke="#00A2C7" stroke-width="2"/>
+  <text x="614" y="308" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">Member confirms</text>
+  <text x="614" y="332" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">reading</text>
+
+  <rect x="48" y="500" width="700" height="248" rx="16" fill="#1F1646" stroke="#E5E1E6" stroke-opacity="0.28" stroke-width="2"/>
+  <text x="72" y="536" fill="#00A2C7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="13" font-weight="700" letter-spacing="0.16em">GATE 2</text>
+  <text x="160" y="536" fill="#E5E1E6" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="16">Use only what SoFi already holds</text>
+
+  <rect x="72" y="568" width="288" height="132" rx="10" fill="#FFFFFF"/>
+  <text x="216" y="624" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">Member data already</text>
+  <text x="216" y="648" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">at SoFi</text>
+
+  <line x1="360" y1="634" x2="400" y2="634" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="408" y="568" width="308" height="132" rx="10" fill="#FFFFFF" stroke="#00A2C7" stroke-width="2"/>
+  <text x="562" y="624" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="17" font-weight="600">Eligibility only</text>
+  <text x="562" y="648" text-anchor="middle" fill="#5C5868" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="14">cash / credit / limits / risk</text>
+
+  <rect x="820" y="184" width="732" height="564" rx="16" fill="#1F1646" stroke="#00A2C7" stroke-width="2"/>
+  <text x="844" y="220" fill="#00A2C7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="13" font-weight="700" letter-spacing="0.16em">GATE 3</text>
+  <text x="932" y="220" fill="#E5E1E6" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="16">Execute only approved lines</text>
+
+  <rect x="948" y="280" width="476" height="100" rx="10" fill="#FFFFFF"/>
+  <text x="1186" y="338" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="20" font-weight="600">Recommended plan</text>
+
+  <line x1="1186" y1="380" x2="1186" y2="428" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="948" y="436" width="476" height="100" rx="10" fill="#FFFFFF"/>
+  <text x="1186" y="494" text-anchor="middle" fill="#201747" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="20" font-weight="600">Approved lines only</text>
+
+  <line x1="1186" y1="536" x2="1186" y2="584" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="948" y="592" width="476" height="108" rx="10" fill="#00A2C7"/>
+  <text x="1186" y="656" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="22" font-weight="700">SoFi It</text>
+
+  <path d="M 716 318 H 768 V 330" fill="none" stroke="#00A2C7" stroke-width="2.5"/>
+  <path d="M 716 634 H 768 V 330" fill="none" stroke="#00A2C7" stroke-width="2.5"/>
+  <line x1="768" y1="330" x2="948" y2="330" stroke="#00A2C7" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <text x="800" y="830" fill="#E5E1E6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="15">Gate 1 and Gate 2 both feed the plan. SoFi does not post until Gate 3.</text>
+  <text x="800" y="858" fill="#00A2C7" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="13" letter-spacing="0.08em">NAVY #201747  |  CYAN #00A2C7  |  PAPER #FFFFFF  |  MIST #E5E1E6</text>
+</svg>
