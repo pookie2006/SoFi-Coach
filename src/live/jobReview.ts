@@ -48,7 +48,7 @@ export function reviewForJob(item: CatalogItem): ReviewModel {
     return {
       kicker: `${scenario.listing.building} · ${scenario.listing.neighborhood}`,
       name: scenario.listing.address,
-      details: `${format.bedsBathsLoft()} · demo listing only`,
+      details: format.bedsBathsLoft(),
       heroLabel: "pick the reading SoFi will use",
       band: `Their ${format.otherApr()} · SoFi ${format.sofiApr()}`,
       section: "Comparable readings",

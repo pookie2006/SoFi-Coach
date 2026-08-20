@@ -159,7 +159,7 @@ export async function lookupPrice(label: string): Promise<CatalogItem> {
     return {
       ...hero,
       identifiedAs: typical.label,
-      blurb: `Identified a ${typical.label.toLowerCase()}. Using the demo street price for this class.`,
+      blurb: `Identified a ${typical.label.toLowerCase()}. Using a typical street price for this class.`,
       asOf: "typical",
     };
   }

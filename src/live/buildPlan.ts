@@ -312,7 +312,7 @@ export function buildPlan(item: CatalogItem, risk: RiskLevel = liveAccount.risk)
     id: "crypto",
     kind: "crypto",
     title: "Optional crypto sleeve",
-    detail: `${money(cryptoAmount)} high-risk sleeve. Off unless you turn it on. Demo only — not a default SoFi action.`,
+    detail: `${money(cryptoAmount)} high-risk sleeve. Off unless you turn it on.`,
     amount: cryptoAmount,
     defaultOn: false,
   };

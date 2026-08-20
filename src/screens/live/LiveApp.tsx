@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { jobCards } from "../../data/ambition";
 import {
   liveAccount,
@@ -349,10 +349,6 @@ function Home({
           ))}
         </div>
       ) : null}
-      <p className={scanStyles.demoNote}>
-        Demo member. Not live underwriting. The loft down payment is a
-        locked receipt — not taken from this checking balance.
-      </p>
       <p className={scanStyles.orPick}>Or pick a job</p>
       <div className={scanStyles.jobs}>
         {jobCards.map((card) => {
@@ -373,13 +369,6 @@ function Home({
           );
         })}
       </div>
-      <Link
-        className={scanStyles.ghost}
-        to="/live/host"
-        style={{ display: "block", textAlign: "center", lineHeight: "46px" }}
-      >
-        Host QR poster
-      </Link>
     </div>
   );
 }

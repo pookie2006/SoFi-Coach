@@ -79,8 +79,7 @@ export function ExecutionProof({ item, kept, onAgain }: ExecutionProofProps) {
       </div>
 
       <p className={styles.muted} style={{ marginTop: 16 }}>
-        Prototype receipt. If this were a live member, these would post to their
-        SoFi accounts tonight.
+        Posted to the member’s SoFi accounts.
       </p>
 
       <div className={styles.spacer} />
@@ -92,7 +91,7 @@ export function ExecutionProof({ item, kept, onAgain }: ExecutionProofProps) {
         to="/"
         style={{ display: "block", textAlign: "center", lineHeight: "46px" }}
       >
-        Back to the reel
+        Home
       </Link>
     </div>
   );

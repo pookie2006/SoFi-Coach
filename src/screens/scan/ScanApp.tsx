@@ -264,10 +264,6 @@ export function ScanApp() {
               ))}
             </div>
           ) : null}
-          <p className={styles.demoNote}>
-            Demo member. Not live underwriting. The loft down payment is a
-            locked receipt — not taken from this checking balance.
-          </p>
           <p className={styles.orPick}>Or pick a job</p>
           <div className={styles.jobs}>
             {jobCards.map((card) => {
@@ -335,10 +331,10 @@ export function ScanApp() {
         <div className={styles.blocked}>
           <p className={styles.kicker}>SoFi It</p>
           <h1 className={styles.workingTitle}>
-            {phase === "blocked" ? "Laptop setup" : "Couldn’t finish the loop"}
+            {phase === "blocked" ? "Try another way" : "Couldn’t finish that scan"}
           </h1>
           <p className={styles.lead}>
-            {error} Pick a job on home — same plans.
+            {error} Pick a job below — SoFi can still write the plan.
           </p>
           {phase === "error" ? (
             <button type="button" className={styles.cta} onClick={reset}>
@@ -346,7 +342,7 @@ export function ScanApp() {
             </button>
           ) : (
             <Link className={styles.cta} to="/" style={{ display: "grid", placeItems: "center" }}>
-              Back to the reel
+              Home
             </Link>
           )}
         </div>
