@@ -31,7 +31,7 @@ export function useCamera(active: boolean) {
       })
       .catch(() => {
         if (!cancelled) {
-          setError("Camera blocked. Pick the object instead — the demo still runs.");
+          setError("Camera blocked. Pick an object instead.");
         }
       });
 

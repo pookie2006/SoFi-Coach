@@ -14,7 +14,7 @@ export async function scanStatus() {
   const response = await fetch("/api/scan-status");
   if (!response.ok) {
     throw new Error(
-      "This page is a static host. Start the laptop with npm run dev -- --host so phones can use /scan.",
+      "Scan is using this phone. SoFi can still name the object and write a plan.",
     );
   }
   return (await response.json()) as { vision: boolean; comps: boolean };

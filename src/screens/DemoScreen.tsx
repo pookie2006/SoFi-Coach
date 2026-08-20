@@ -352,7 +352,7 @@ export function DemoScreen() {
                 });
               }}
             >
-              Judge scan
+              Scan
             </button>
           </div>
         </>
