@@ -2,7 +2,9 @@
 
 SoFi does the thing. It does not stop at a plan.
 
-Someone screenshots a listing, a statement, or an object and asks “is this even possible?” Explainers answer. **SoFi It** reads the job against the member’s SoFi accounts, writes a short plan, waits for them to approve or reject each line, then originates, refinances, or allocates.
+Someone screenshots a thing they want and asks “is this even possible?” Explainers answer. **SoFi It** reads the job against the member’s SoFi accounts, writes a short plan, waits for them to approve or reject each line, then originates, refinances, or allocates.
+
+**Scanning today is objects only** — point the camera at a laptop, bike, phone, and so on. Scanning documents and home listings (leases, statements, Zillow cards) comes later.
 
 **Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
@@ -16,7 +18,7 @@ Scan the code with your phone camera to open SoFi It.
 
 ## How the product works
 
-1. **See** — Scan an object, or tap a listing / study-abroad packet / student-loan statement.
+1. **See** — Scan an object. Document and home-listing scan ships later.
 2. **Read** — SoFi names the job and shows the reading. The member confirms the price or rate.
 3. **Recommend** — Eligible SoFi products only (checking, card, Pay in 4, personal loan, mortgage, student loan, invest), using the demo member’s balances.
 4. **Choose** — Approve or reject each line. Buy options are exclusive — no double-funding.
@@ -56,9 +58,10 @@ https://pookie2006.github.io/SoFi-Coach/scan
 
 On the phone they can:
 
-- **Scan an object** — take a photo. The phone names it and SoFi writes a plan.
+- **Scan an object** — take a photo of a physical thing. The phone names it and SoFi writes a plan.
 - **Finance an object** — pick a catalog item (MacBook, iPhone, bike).
-- **Pick a job** — SoMa loft, Barcelona semester, or a student-loan statement.
+
+Scanning a document or a home listing is not live yet. That path — statements, leases, Zillow cards — will be added later. Until then, the SoMa loft, Barcelona semester, and student-loan jobs are tappable story examples, not camera scans.
 
 On-device scan does not need this laptop. The richer vision + shopping-comps path needs keys in `scan/.env` and a running laptop:
 
