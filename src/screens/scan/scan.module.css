@@ -176,6 +176,20 @@
   border: 0;
 }
 
+.fileBtn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.fileBtn input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .working,
 .blocked {
   flex: 1;

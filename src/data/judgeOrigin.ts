@@ -1,5 +1,4 @@
-/** Phone QR — same link localhost /api/lan uses. Keep npm run demo on this tunnel. */
-export const judgeTunnelOrigin =
-  "https://thehun-newest-craps-rotary.trycloudflare.com";
+/** Phone QR for GitHub Pages — stays up when the laptop is closed. */
+export const judgeTunnelOrigin = "https://pookie2006.github.io/SoFi-Coach";
 
 export const judgeScanHref = `${judgeTunnelOrigin}/scan`;
