@@ -1,45 +1,89 @@
-# SoFi-Coach
+# SoFi It
 
-**Start here:** [SOFI-IT-FINAL.md](SOFI-IT-FINAL.md) is the condensed product lock — SoFi executes the job; it does not stop at a plan. [SOFI-IT.md](SOFI-IT.md) is the full spec (deck, numbers, prototype). A later Cursor Agent should read `SOFI-IT.md` and implement Part C. Do not invent a second set of numbers or reopen the locked concept.
+SoFi does the thing. It does not stop at a plan.
 
-SoFi It is an execution feature: share a listing or state an intent, and SoFi completes the job (finance, invest, lend). This repository is the starting point for the prototype, docs, and contribution workflow.
+Someone screenshots a listing, a statement, or an object and asks “is this even possible?” Explainers answer. **SoFi It** reads the job against the member’s SoFi accounts, writes a short plan, waits for them to approve or reject each line, then originates, refinances, or allocates.
 
-## Live demo
+**Live site:** [https://pookie2006.github.io/SoFi-Coach/](https://pookie2006.github.io/SoFi-Coach/)
 
-https://pookie2006.github.io/SoFi-Coach/
+**Scan (phone camera, no Expo Go):** [https://pookie2006.github.io/SoFi-Coach/scan](https://pookie2006.github.io/SoFi-Coach/scan)
 
-**Scan V1 (judges, no Expo Go):** photo → vision name → shopping comps → price range. Put `/scan/host` on the laptop. Judges scan the QR with the Phone Camera app and land on `/scan`. See [scan/README.md](scan/README.md).
+![QR code that opens SoFi It scan](public/sofi-scan-qr.png)
 
-## Status
+Point Phone Camera at the code. It opens `/scan` on GitHub Pages — the laptop does not need to stay on.
 
-The six-screen prototype matches [SOFI-IT.md](SOFI-IT.md) Part C: Luke shares a Zillow listing; SoFi originates the mortgage.
+---
 
-## Getting started
+## How the product works
 
-1. Clone the repository:
+1. **See** — Scan an object, or tap a listing / study-abroad packet / student-loan statement.
+2. **Read** — SoFi names the job and shows the reading. The member confirms the price or rate.
+3. **Recommend** — Eligible SoFi products only (checking, card, Pay in 4, personal loan, mortgage, student loan, invest), using the demo member’s balances.
+4. **Choose** — Approve or reject each line. Buy options are exclusive — no double-funding.
+5. **Do** — SoFi posts a receipt. Prototype only — not live underwriting.
 
-   ```bash
-   git clone https://github.com/pookie2006/SoFi-Coach.git
-   cd SoFi-Coach
-   ```
+The reel at `/` is the story. `/scan` is the room people can try.
 
-2. Install and run the prototype:
+Locked spec and numbers: [SOFI-IT-FINAL.md](SOFI-IT-FINAL.md) and [SOFI-IT.md](SOFI-IT.md).
 
-   ```bash
-   npm install
-   npm run demo
-   ```
+---
 
-   SoFi It is **http://localhost:5180** on this laptop (5173 is often another Vite app). **Judge live (any Wi-Fi, no Expo Go):** `npm run demo` opens a public HTTPS tunnel. Laptop shows `/scan/host`; judges scan that QR with Phone Camera. Keys stay in `scan/.env`. Use `?static=1` or `/gallery` when screenshotting slides.
+## Run it locally
+
+```bash
+git clone https://github.com/pookie2006/SoFi-Coach.git
+cd SoFi-Coach
+npm install
+npm run dev
+```
+
+Open **http://localhost:5180** (5173 is often another Vite app).
+
+| URL | What it is |
+|---|---|
+| `/` | Pitch reel (share a listing → SoFi finances it) |
+| `/scan` | Interactive scan + jobs — **this is the phone path** |
+| `/scan/host` | Poster with a QR for the current origin |
+| `/gallery` or `?static=1` | Screenshot-friendly slides |
+
+---
+
+## Scan portion
+
+**Share this with testers (stays up when the laptop is closed):**
+
+https://pookie2006.github.io/SoFi-Coach/scan
+
+On the phone they can:
+
+- **Scan an object** — take a photo. The phone names it and SoFi writes a plan.
+- **Finance an object** — pick a catalog item (MacBook, iPhone, bike).
+- **Pick a job** — SoMa loft, Barcelona semester, or a student-loan statement.
+
+On-device scan does not need this laptop. The richer vision + shopping-comps path needs keys in `scan/.env` and a running laptop:
+
+```bash
+cp scan/.env.example scan/.env   # add a vision key and SerpAPI
+npm run demo                     # Vite + public HTTPS tunnel
+```
+
+Keep that terminal open. Then either:
+
+- open **http://localhost:5180/scan** on the laptop, or
+- open **http://localhost:5180/scan/host** and scan that QR (tunnel URL, laptop must stay awake).
+
+`npm run demo` mints a new `*.trycloudflare.com` each time. GitHub Pages `/scan` is the stable link.
+
+---
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull request, and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security
 
-If you find a vulnerability, do not open a public issue. See [SECURITY.md](SECURITY.md) for how to report it privately.
+Do not open a public issue for a vulnerability. See [SECURITY.md](SECURITY.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+[MIT License](LICENSE).

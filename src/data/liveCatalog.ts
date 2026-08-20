@@ -76,7 +76,7 @@ export const jobCatalog: CatalogItem[] = [
     price: scenario.listing.price,
     streetHigh: scenario.listing.price,
     blurb: `${scenario.listing.building} · ${scenario.listing.neighborhood}. Demo listing only — HQ is not for sale.`,
-    source: "Luke · Zillow share",
+    source: "Zillow share",
     purchaseKind: "home",
   },
   {

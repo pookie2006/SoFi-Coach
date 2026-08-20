@@ -22,7 +22,13 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /SoFi-Coach/
-      - run: cp dist/index.html dist/404.html
+      - run: |
+          cp dist/index.html dist/404.html
+          mkdir -p dist/scan dist/scan/host dist/live dist/live/host
+          cp dist/index.html dist/scan/index.html
+          cp dist/index.html dist/scan/host/index.html
+          cp dist/index.html dist/live/index.html
+          cp dist/index.html dist/live/host/index.html
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

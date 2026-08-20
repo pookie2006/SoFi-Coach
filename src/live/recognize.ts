@@ -1,8 +1,10 @@
 import { ignoredLabels } from "../data/typicalPrices";
 
+type Detectable = HTMLVideoElement | HTMLImageElement | HTMLCanvasElement;
+
 type Detector = {
   detect: (
-    input: HTMLVideoElement,
+    input: Detectable,
   ) => Promise<Array<{ class: string; score: number }>>;
 };
 
@@ -30,12 +32,11 @@ export function loadDetector() {
   return detectorPromise;
 }
 
-export async function matchFrame(
-  video: HTMLVideoElement,
+async function pickHit(
+  detector: Detector,
+  input: Detectable,
 ): Promise<Detection | null> {
-  const detector = await loadDetector();
-  if (!detector || video.readyState < 2) return null;
-  const hits = await detector.detect(video);
+  const hits = await detector.detect(input);
   const ranked = [...hits].sort((a, b) => b.score - a.score);
   for (const hit of ranked) {
     if (hit.score < 0.45) continue;
@@ -44,4 +45,25 @@ export async function matchFrame(
     return { label, score: hit.score };
   }
   return null;
+}
+
+export async function matchFrame(
+  video: HTMLVideoElement,
+): Promise<Detection | null> {
+  const detector = await loadDetector();
+  if (!detector || video.readyState < 2) return null;
+  return pickHit(detector, video);
+}
+
+/** Still photo — used on GitHub Pages when the laptop vision proxy is offline. */
+export async function matchStill(uri: string): Promise<Detection | null> {
+  const detector = await loadDetector();
+  if (!detector) return null;
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Could not read the photo."));
+    img.src = uri;
+  });
+  return pickHit(detector, image);
 }

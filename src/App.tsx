@@ -9,36 +9,41 @@ import { ScanApp } from "./screens/scan/ScanApp";
 import { ScanHost } from "./screens/scan/ScanHost";
 import { useStaticMode } from "./useStaticMode";
 
+function routePath(pathname: string) {
+  return pathname.replace(/\/+$/, "") || "/";
+}
+
 export default function App() {
   const location = useLocation();
   const { isStatic } = useStaticMode();
+  const path = routePath(location.pathname);
 
-  if (location.pathname === "/gallery") {
+  if (path === "/gallery") {
     return <GalleryScreen />;
   }
 
-  if (location.pathname === "/scan/host") {
+  if (path === "/scan/host") {
     return <ScanHost />;
   }
 
-  if (location.pathname === "/scan") {
+  if (path === "/scan") {
     return <ScanApp />;
   }
 
-  if (location.pathname === "/live/host") {
+  if (path === "/live/host") {
     return <LiveHost />;
   }
 
-  if (location.pathname === "/live") {
+  if (path === "/live") {
     return <LiveApp />;
   }
 
-  if (location.pathname === "/" || location.pathname === "/demo") {
+  if (path === "/" || path === "/demo") {
     return <DemoScreen />;
   }
 
   return (
-    <DeviceFrame caption={isStatic ? null : "SoFi It · Luke"}>
+    <DeviceFrame caption={isStatic ? null : "SoFi It"}>
       <AppRoutes />
     </DeviceFrame>
   );

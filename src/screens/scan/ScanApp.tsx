@@ -22,6 +22,7 @@ import {
   workingLines,
   type ReviewModel,
 } from "../../live/jobReview";
+import { MemberWallet } from "./MemberWallet";
 import { ReviewScreen } from "./ReviewScreen";
 import {
   applyExclusiveToggle,
@@ -31,7 +32,8 @@ import {
 } from "../../live/buildPlan";
 import { planHeader } from "../../live/jobView";
 import { ExecutionProof } from "../live/ExecutionProof";
-import { identifyPhoto, scanStatus, searchComps } from "../../scan/api";
+import { identifyPhoto, searchComps } from "../../scan/api";
+import { identifyOnDevice } from "../../scan/onDevice";
 import { fileToJpeg } from "../../scan/photo";
 import { priceRange } from "../../scan/range";
 import type { ScanResult } from "../../scan/types";
@@ -133,28 +135,6 @@ export function ScanApp() {
     if (item) setApproved(seedApproved(buildPlan(item, risk)));
   }, [item, risk]);
 
-  useEffect(() => {
-    let cancelled = false;
-    void scanStatus()
-      .then((status) => {
-        if (cancelled) return;
-        if (!status.vision || !status.comps) {
-          setError(
-            "Add EXPO_PUBLIC_ANTHROPIC_API_KEY and EXPO_PUBLIC_SERPAPI_KEY to scan/.env, then restart npm run dev.",
-          );
-          setPhase("blocked");
-        }
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Scan API is offline.");
-        setPhase("blocked");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   async function runLoop(file: File) {
     setBusy(true);
     setPhase("working");
@@ -162,20 +142,27 @@ export function ScanApp() {
     try {
       const photo = await fileToJpeg(file);
       setStep("Naming the object…");
-      const vision = await identifyPhoto(photo.base64);
-      setStep("Searching comps…");
-      const comps = await searchComps(vision);
-      const range = priceRange(comps);
-      const next = { photoUri: photo.uri, vision, comps, range };
+      let next: ScanResult;
+      try {
+        const vision = await identifyPhoto(photo.base64);
+        setStep("Searching comps…");
+        const comps = await searchComps(vision);
+        next = { photoUri: photo.uri, vision, comps, range: priceRange(comps) };
+      } catch {
+        setStep("Naming on this phone…");
+        next = await identifyOnDevice(photo.uri);
+      }
       const options = pricePicks(next);
       setResult(next);
       setJob(null);
       setReview({
-        kicker: vision.brand ? `${vision.brand} · ${vision.category}` : vision.category,
-        name: vision.name,
-        details: vision.details.join(" · ") || undefined,
+        kicker: next.vision.brand
+          ? `${next.vision.brand} · ${next.vision.category}`
+          : next.vision.category,
+        name: next.vision.name,
+        details: next.vision.details.join(" · ") || undefined,
         heroLabel: "pick the most accurate price",
-        band: `${usd.format(range.low)} low · ${usd.format(range.high)} high`,
+        band: `${usd.format(next.range.low)} low · ${usd.format(next.range.high)} high`,
         section: "Comparable listings",
         continueLabel: "Use this price",
         banner: "object",
@@ -227,26 +214,15 @@ export function ScanApp() {
 
   return (
     <div className={styles.page}>
-      <input
-        ref={inputRef}
-        className={styles.hidden}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          if (file) void runLoop(file);
-        }}
-      />
-
       {phase === "camera" ? (
         <div className={styles.camera}>
           <p className={styles.kicker}>SoFi It</p>
           <h1 className={styles.title}>Screenshot it. SoFi It.</h1>
           <p className={styles.lead}>
-            Prototype — not the production pipe. Finance an object, scan
-            one, or pick a job. SoFi writes a plan, then posts a receipt.
+            SoFi reads the job against the member’s accounts, writes a plan,
+            and waits for a tap. Then SoFi does it.
           </p>
+          <MemberWallet />
           <div className={styles.actions}>
             <button
               type="button"
@@ -256,14 +232,20 @@ export function ScanApp() {
             >
               Finance an object
             </button>
-            <button
-              type="button"
-              className={styles.ghost}
-              disabled={busy}
-              onClick={() => inputRef.current?.click()}
-            >
+            <label className={`${styles.ghost} ${styles.fileBtn}`}>
+              <input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                disabled={busy}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void runLoop(file);
+                }}
+              />
               Scan an object
-            </button>
+            </label>
           </div>
           {pickingObject ? (
             <div className={styles.jobs} style={{ marginTop: 12 }}>
@@ -282,6 +264,10 @@ export function ScanApp() {
               ))}
             </div>
           ) : null}
+          <p className={styles.demoNote}>
+            Demo member. Not live underwriting. The loft down payment is a
+            locked receipt — not taken from this checking balance.
+          </p>
           <p className={styles.orPick}>Or pick a job</p>
           <div className={styles.jobs}>
             {jobCards.map((card) => {

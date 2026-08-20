@@ -56,7 +56,7 @@ export function statementTheirMonthly() {
 export const jobCards = [
   {
     id: "loft",
-    eyebrow: "Listing · Luke",
+    eyebrow: "Listing",
     title: "SoMa loft",
     hero: `${format.monthlySave()}/mo`,
     sub: "SoFi originates the mortgage",

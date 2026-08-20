@@ -30,6 +30,7 @@ import {
   seedApproved,
 } from "../../live/buildPlan";
 import { planHeader } from "../../live/jobView";
+import { MemberWallet } from "../scan/MemberWallet";
 import { ReviewScreen } from "../scan/ReviewScreen";
 import { lookupPrice, priceKnownItem } from "../../live/lookupPrice";
 import { loadDetector, matchFrame } from "../../live/recognize";
@@ -316,12 +317,13 @@ function Home({
 }) {
   return (
     <div className={scanStyles.camera}>
-      <p className={scanStyles.kicker}>{liveAccount.name}</p>
+      <p className={scanStyles.kicker}>SoFi It</p>
       <h1 className={scanStyles.title}>Screenshot it. SoFi It.</h1>
       <p className={scanStyles.lead}>
-        Prototype — not the production pipe. Finance an object, scan
-        one, or pick a job. SoFi writes a plan, then posts a receipt.
+        SoFi reads the job against the member’s accounts, writes a plan,
+        and waits for a tap. Then SoFi does it.
       </p>
+      <MemberWallet />
       <div className={scanStyles.actions}>
         <button type="button" className={scanStyles.cta} onClick={onFinance}>
           Finance an object
@@ -347,6 +349,10 @@ function Home({
           ))}
         </div>
       ) : null}
+      <p className={scanStyles.demoNote}>
+        Demo member. Not live underwriting. The loft down payment is a
+        locked receipt — not taken from this checking balance.
+      </p>
       <p className={scanStyles.orPick}>Or pick a job</p>
       <div className={scanStyles.jobs}>
         {jobCards.map((card) => {
