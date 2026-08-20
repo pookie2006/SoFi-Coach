@@ -7,7 +7,8 @@ export const riskLabels = {
 export type RiskLevel = keyof typeof riskLabels;
 
 export const liveAccount = {
-  name: "Judge member",
+  name: "SoFi Member",
+  age: 29,
   memberSince: "2023",
   school: "UC Davis",
   cash: 1_640,

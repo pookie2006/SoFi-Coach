@@ -43,7 +43,7 @@ export default function App() {
   }
 
   return (
-    <DeviceFrame caption={isStatic ? null : "SoFi It · Luke"}>
+    <DeviceFrame caption={isStatic ? null : "SoFi It"}>
       <AppRoutes />
     </DeviceFrame>
   );

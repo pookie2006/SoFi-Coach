@@ -22,6 +22,7 @@ import {
   workingLines,
   type ReviewModel,
 } from "../../live/jobReview";
+import { MemberWallet } from "./MemberWallet";
 import { ReviewScreen } from "./ReviewScreen";
 import {
   applyExclusiveToggle,
@@ -218,9 +219,10 @@ export function ScanApp() {
           <p className={styles.kicker}>SoFi It</p>
           <h1 className={styles.title}>Screenshot it. SoFi It.</h1>
           <p className={styles.lead}>
-            Prototype — not the production pipe. Finance an object, scan
-            one, or pick a job. SoFi writes a plan, then posts a receipt.
+            SoFi reads the job against the member’s accounts, writes a plan,
+            and waits for a tap. Then SoFi does it.
           </p>
+          <MemberWallet />
           <div className={styles.actions}>
             <button
               type="button"
@@ -262,6 +264,10 @@ export function ScanApp() {
               ))}
             </div>
           ) : null}
+          <p className={styles.demoNote}>
+            Demo member. Not live underwriting. The loft down payment is a
+            locked receipt — not taken from this checking balance.
+          </p>
           <p className={styles.orPick}>Or pick a job</p>
           <div className={styles.jobs}>
             {jobCards.map((card) => {
